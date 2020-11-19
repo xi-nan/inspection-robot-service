@@ -18,6 +18,7 @@ import com.boot.business.sysuser.model.po.SysUserRole;
 import com.boot.business.sysuser.service.*;
 import com.boot.commons.core.exception.enums.ErrCodeEnum;
 import com.boot.commons.core.security.JwtTokenUtil;
+import com.boot.commons.core.security.JwtUser;
 import com.boot.commons.core.security.UserType;
 import io.jsonwebtoken.lang.Collections;
 import org.apache.commons.lang3.StringUtils;

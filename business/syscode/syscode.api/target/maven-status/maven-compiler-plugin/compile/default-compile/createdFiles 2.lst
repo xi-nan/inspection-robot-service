@@ -1,6 +1,0 @@
-com/boot/business/syscode/model/enums/IntegralTypeEnum.class
-com/boot/business/syscode/model/enums/ISysCodeEnum.class
-com/boot/business/syscode/model/dto/SysCodeDTO.class
-com/boot/business/syscode/model/enums/CommissionLevelEnum.class
-com/boot/business/syscode/model/enums/SysCodeEnum.class
-com/boot/business/syscode/service/SysCodeFacade.class
