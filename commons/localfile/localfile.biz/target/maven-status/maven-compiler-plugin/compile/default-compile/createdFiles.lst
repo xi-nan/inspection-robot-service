@@ -1,0 +1,10 @@
+com/boot/commons/localfile/model/enums/LocalFileErrCodeEnum.class
+com/boot/commons/localfile/model/po/LocalFile.class
+com/boot/commons/localfile/model/dto/FileExists.class
+com/boot/commons/localfile/utils/FileUtils.class
+com/boot/commons/localfile/utils/FileMd5Util.class
+com/boot/commons/localfile/service/LocalFileService.class
+com/boot/commons/localfile/mapper/LocalFileMapper.class
+com/boot/commons/localfile/model/dto/FileInfo.class
+com/boot/commons/localfile/controller/LocalFileDownloadController.class
+com/boot/commons/localfile/controller/LocalFileUploadController.class

@@ -1,0 +1,10 @@
+/Users/xinan/tmp/service/commons/localfile/localfile.biz/src/main/java/com/boot/commons/localfile/mapper/LocalFileMapper.java
+/Users/xinan/tmp/service/commons/localfile/localfile.biz/src/main/java/com/boot/commons/localfile/controller/LocalFileUploadController.java
+/Users/xinan/tmp/service/commons/localfile/localfile.biz/src/main/java/com/boot/commons/localfile/controller/LocalFileDownloadController.java
+/Users/xinan/tmp/service/commons/localfile/localfile.biz/src/main/java/com/boot/commons/localfile/model/dto/FileExists.java
+/Users/xinan/tmp/service/commons/localfile/localfile.biz/src/main/java/com/boot/commons/localfile/model/enums/LocalFileErrCodeEnum.java
+/Users/xinan/tmp/service/commons/localfile/localfile.biz/src/main/java/com/boot/commons/localfile/model/po/LocalFile.java
+/Users/xinan/tmp/service/commons/localfile/localfile.biz/src/main/java/com/boot/commons/localfile/service/LocalFileService.java
+/Users/xinan/tmp/service/commons/localfile/localfile.biz/src/main/java/com/boot/commons/localfile/model/dto/FileInfo.java
+/Users/xinan/tmp/service/commons/localfile/localfile.biz/src/main/java/com/boot/commons/localfile/utils/FileUtils.java
+/Users/xinan/tmp/service/commons/localfile/localfile.biz/src/main/java/com/boot/commons/localfile/utils/FileMd5Util.java

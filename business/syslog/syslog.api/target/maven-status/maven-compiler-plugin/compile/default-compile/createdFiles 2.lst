@@ -1,0 +1,6 @@
+com/boot/business/syslog/model/enums/LogVideoOperationType.class
+com/boot/business/syslog/service/LogSysUserFacade.class
+com/boot/business/syslog/service/LogVideoFacade.class
+com/boot/business/syslog/model/param/LogSysUserSaveParam.class
+com/boot/business/syslog/model/param/LogVideoSaveParam.class
+com/boot/business/syslog/model/enums/LogSysUserOperationType.class
