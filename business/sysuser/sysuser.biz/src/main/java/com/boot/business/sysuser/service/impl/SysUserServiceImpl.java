@@ -111,13 +111,23 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public Boolean resetPwd(Long id, String oldPassword, String newPassword) {
+    public Boolean updPwd(Long id, String oldPassword, String newPassword) {
         SysUser user = this.findByIdNotNull(id);
         SysUserErrCodeEnum.E_20101.throwIf(!passwordEncoder.matches(oldPassword, user.getPassword()));
         // 清除用户登录token缓存
         jwtTokenUtil.cleanToken4UserId(UserType.ADMIN.name(), id);
         //将密码进行加密操作
         user.setPassword(passwordEncoder.encode(newPassword));
+        return user.updateById();
+    }
+
+    @Override
+    public Boolean resetPwd(Long id) {
+        SysUser user = this.findByIdNotNull(id);
+        // 清除用户登录token缓存
+        jwtTokenUtil.cleanToken4UserId(UserType.ADMIN.name(), id);
+        //将密码进行加密操作
+        user.setPassword(passwordEncoder.encode("a12345"));
         return user.updateById();
     }
 

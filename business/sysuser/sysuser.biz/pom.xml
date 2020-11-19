@@ -17,6 +17,13 @@
             <groupId>com.boot.inspection-robot-service.business</groupId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.boot.inspection-robot-service.business</groupId>
+            <artifactId>syslog.api</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
 

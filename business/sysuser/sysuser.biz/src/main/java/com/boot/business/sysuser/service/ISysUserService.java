@@ -30,7 +30,9 @@ public interface ISysUserService extends IService<SysUser> {
 
     Boolean checkPwd(Long id, String oldPassword);
 
-    Boolean resetPwd(Long id, String oldPassword, String newPassword);
+    Boolean updPwd(Long id, String oldPassword, String newPassword);
+
+    Boolean resetPwd(Long id);
 
     Boolean save(SysUserSaveParam param);
 

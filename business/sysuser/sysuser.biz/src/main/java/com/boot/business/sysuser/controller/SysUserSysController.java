@@ -1,6 +1,10 @@
 package com.boot.business.sysuser.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.boot.business.syslog.model.enums.LogSysUserOperationType;
+import com.boot.business.syslog.model.param.LogSysUserSaveParam;
+import com.boot.business.syslog.service.LogSysUserFacade;
 import com.boot.business.sysuser.model.dto.SysUserDTO;
 import com.boot.business.sysuser.model.enums.LoginPlatform;
 import com.boot.business.sysuser.model.enums.SysUserErrCodeEnum;
@@ -43,6 +47,9 @@ public class SysUserSysController {
     @Autowired
     private RedisComponent redisComponent;
 
+    @Autowired
+    private LogSysUserFacade logSysUserFacade;
+
     @ApiOperation("管理员登陆，客户端登陆token有效期只有15秒(3次心跳周期) 每次发送心跳都会续期15秒")
     @PostMapping("/login")
     public String login(@Valid @RequestBody SysUserLoginParam param) {
@@ -69,6 +76,9 @@ public class SysUserSysController {
     // @PreAuthorize("hasAuthority('sys:admin:edit')")
     public void add(@Validated(value = ValidGroup.add.class) @RequestBody SysUserSaveParam param) {
         ErrCodeEnum.E_10021.throwIf(!service.save(param));
+        // 记录日志
+        String log = StrUtil.format("新增账号:{} 操作人:{}", param.getUsername(), LoginUserUtil.getLoginUser().getUsername());
+        logSysUserFacade.saveLog(new LogSysUserSaveParam(log, LogSysUserOperationType.ADD_USER));
     }
 
     @ApiOperation("保存用户信息")
@@ -76,6 +86,9 @@ public class SysUserSysController {
     // @PreAuthorize("hasAuthority('sys:admin:edit')")
     public void upd(@Validated(value = ValidGroup.upd.class) @RequestBody SysUserSaveParam param) {
         ErrCodeEnum.E_10021.throwIf(!service.save(param));
+        // 记录日志
+        String log = StrUtil.format("被修改账号:{} 操作人:{}", param.getUsername(), LoginUserUtil.getLoginUser().getUsername());
+        logSysUserFacade.saveLog(new LogSysUserSaveParam(log, LogSysUserOperationType.MODIFY_USER));
     }
 
     @ApiOperation("启用/禁用 用户")
@@ -85,11 +98,26 @@ public class SysUserSysController {
         ErrCodeEnum.E_10021.throwIf(!service.lambdaUpdate().eq(SysUser::getId, id).set(SysUser::getEnabled, enabled).update());
     }
 
-    @ApiOperation("修改密码")
+    @ApiOperation("修改当前登陆账号密码")
     @PostMapping("/pwd")
     // @PreAuthorize("permitAll()")
-    public void resetPwd(@Valid @RequestBody SysUserResetPwdParam param) {
-        ErrCodeEnum.E_10021.throwIf(!service.resetPwd(LoginUserUtil.getLoginUserId(), param.getOldPassword(), param.getNewPassword()));
+    public void updPwd(@Valid @RequestBody SysUserResetPwdParam param) {
+        ErrCodeEnum.E_10021.throwIf(!service.updPwd(LoginUserUtil.getLoginUserId(), param.getOldPassword(), param.getNewPassword()));
+        // 记录日志
+        String username = LoginUserUtil.getLoginUser().getUsername();
+        String log = StrUtil.format("被修改账号:{} 操作人:{}", username, username);
+        logSysUserFacade.saveLog(new LogSysUserSaveParam(log, LogSysUserOperationType.UPD_PASSWORD));
+    }
+
+    @ApiOperation("重置密码为 a12345")
+    @PostMapping("/{id}/resetPwd")
+    // @PreAuthorize("permitAll()")
+    public void resetPwd(@PathVariable(value = "id") Long id) {
+        ErrCodeEnum.E_10021.throwIf(!service.resetPwd(id));
+        // 记录日志
+        SysUser user = service.findByIdNotNull(id);
+        String log = StrUtil.format("被修改账号:{} 操作人:{}", user.getUsername(), LoginUserUtil.getLoginUser().getUsername());
+        logSysUserFacade.saveLog(new LogSysUserSaveParam(log, LogSysUserOperationType.RESET_PASSWORD));
     }
 
     @ApiOperation("获取管理员列表(分页)")
@@ -111,7 +139,11 @@ public class SysUserSysController {
     // @PreAuthorize("hasAuthority('sys:admin:del')")
     public void delById(@PathVariable(value = "id") Long id) {
         SysUserErrCodeEnum.E_20103.throwIf(id == 1L);
-        ErrCodeEnum.E_10022.throwIf(!new SysUser().deleteById(id));
+        SysUser user = service.findByIdNotNull(id);
+        ErrCodeEnum.E_10022.throwIf(!user.deleteById());
+        // 记录日志
+        String log = StrUtil.format("删除账号:{} 操作人:{}", user.getUsername(), LoginUserUtil.getLoginUser().getUsername());
+        logSysUserFacade.saveLog(new LogSysUserSaveParam(log, LogSysUserOperationType.DEL_USER));
     }
 
     @ApiOperation("客户端心跳上报, 返回错误码20104则清除本地token，并弹窗提示")
