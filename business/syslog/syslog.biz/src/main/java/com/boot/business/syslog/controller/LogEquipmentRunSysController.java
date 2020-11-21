@@ -3,9 +3,11 @@ package com.boot.business.syslog.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.boot.business.syslog.model.dto.LogAlarmDTO;
+import com.boot.business.syslog.model.dto.LogEquipmentRunDTO;
 import com.boot.business.syslog.model.param.LogEquipmentRunSaveParam;
 import com.boot.business.syslog.model.param.LogPageParam;
 import com.boot.business.syslog.model.po.LogAlarm;
+import com.boot.business.syslog.model.po.LogEquipmentRun;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -29,11 +31,11 @@ public class LogEquipmentRunSysController {
 
     @ApiOperation("获取日志列表(分页)")
     @PostMapping("/page")
-    public IPage<LogAlarmDTO> page(@RequestBody LogPageParam param) {
-        return new LogAlarm().selectPage(param.page(), Wrappers.<LogAlarm>lambdaQuery()
-                .ge(param.getLogTimeEnd() != null, LogAlarm::getLogTime, param.getLogTimeStart())
-                .le(param.getLogTimeEnd() != null, LogAlarm::getLogTime, param.getLogTimeEnd()))
-                .convert(LogAlarmDTO::warp);
+    public IPage<LogEquipmentRunDTO> page(@RequestBody LogPageParam param) {
+        return new LogEquipmentRun().selectPage(param.page(), Wrappers.<LogEquipmentRun>lambdaQuery()
+                .ge(param.getLogTimeEnd() != null, LogEquipmentRun::getLogTime, param.getLogTimeStart())
+                .le(param.getLogTimeEnd() != null, LogEquipmentRun::getLogTime, param.getLogTimeEnd()))
+                .convert(LogEquipmentRunDTO::warp);
     }
 
 }
