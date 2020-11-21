@@ -52,7 +52,7 @@ public class RoleSysController {
     @ApiOperation("编辑角色")
     @PostMapping("/update")
     // @PreAuthorize("hasAuthority('sys:role:edit')")
-    public void update(@Validated(value = ValidGroup.upd.class) RoleSaveParam param) {
+    public void update(@Validated(value = ValidGroup.upd.class)@RequestBody RoleSaveParam param) {
         ErrCodeEnum.E_10021.throwIf(!roleService.update(param));
     }
 
