@@ -36,6 +36,7 @@ public class BaseSecurityConfig extends SuperSecurityConfig {
         httpSecurity.authorizeRequests()
                 //跨域请求会先进行一次options请求
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
+                .antMatchers("/admin-web/**").permitAll()
                 // swagger
                 .antMatchers("/doc.html").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()

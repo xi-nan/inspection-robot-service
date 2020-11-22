@@ -13,3 +13,5 @@ spring:
     host: 47.97.223.112
     port: 6379
     password: 123456
+
+spring.resources.static-locations: file:/Users/xinan/tmp

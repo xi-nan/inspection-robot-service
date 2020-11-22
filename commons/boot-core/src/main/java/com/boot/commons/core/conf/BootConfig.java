@@ -2,7 +2,6 @@ package com.boot.commons.core.conf;
 
 import com.boot.commons.core.properties.SiteProperties;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -29,9 +28,6 @@ import java.util.concurrent.Executor;
 @EntityScan({"com.boot.**.entity", "com.boot.**.po"})
 public class BootConfig {
 
-    @Autowired
-    SiteProperties siteProperties;
-
     /**
      * 异步方法线程池
      */
@@ -45,7 +41,7 @@ public class BootConfig {
         //线程池所使用的缓冲队列
         executor.setQueueCapacity(Integer.MAX_VALUE);
         executor.setKeepAliveSeconds(30);
-        executor.setThreadNamePrefix(siteProperties.getAppName() + "_");
+        executor.setThreadNamePrefix(SiteProperties._this.getAppName() + "_");
         executor.initialize();
         return executor;
     }
