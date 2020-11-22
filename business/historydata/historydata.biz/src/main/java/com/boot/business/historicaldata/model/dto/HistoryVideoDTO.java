@@ -16,6 +16,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class HistoryVideoDTO {
 
+    @ApiModelProperty(value = "视频记录ID")
+    private Long id;
+
     @ApiModelProperty(value = "视频文件ID")
     private Long fileId;
 

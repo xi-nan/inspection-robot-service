@@ -24,9 +24,10 @@ public class HistoryVideoSysController {
     @Autowired
     private LogVideoFacade logVideoFacade;
 
-    @ApiOperation("保存日志记录")
+    @ApiOperation("保存视频记录")
     @PostMapping("/{type}/save")
     public void add(@PathVariable VideoType type, @RequestBody HistoryVideoSaveParam param) {
+        param.setVideoType(type);
         new HistoryVideo().warpT(param).insert();
         logVideoFacade.saveLog(new LogVideoSaveParam(LogVideoOperationType.ADD,
                 System.currentTimeMillis(),

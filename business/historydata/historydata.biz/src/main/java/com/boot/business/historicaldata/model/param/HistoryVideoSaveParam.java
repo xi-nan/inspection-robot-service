@@ -1,5 +1,6 @@
 package com.boot.business.historicaldata.model.param;
 
+import com.boot.business.historicaldata.model.enums.VideoType;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,5 +27,8 @@ public class HistoryVideoSaveParam {
 
     @ApiModelProperty(value = "开始录制时间")
     private Long startTime;
+
+    @ApiModelProperty(value = "视频类型", hidden = true)
+    private VideoType videoType;
 
 }

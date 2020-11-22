@@ -1,6 +1,7 @@
 package com.boot.commons.localfile.controller;
 
 import com.boot.commons.core.response.NotResponseBody;
+import com.boot.commons.localfile.model.dto.LocalFileDTO;
 import com.boot.commons.localfile.model.enums.LocalFileErrCodeEnum;
 import com.boot.commons.localfile.service.LocalFileService;
 import io.swagger.annotations.Api;
@@ -34,6 +35,13 @@ public class LocalFileDownloadController {
     HttpServletResponse response;
     @Autowired
     private LocalFileService service;
+
+    @NotResponseBody
+    @ApiOperation("获取文件信息")
+    @GetMapping(value = "/info/{fileId}/public")
+    public LocalFileDTO info(@PathVariable(value = "fileId") Long fileId) {
+        return service.getById(fileId).warpR(LocalFileDTO.class);
+    }
 
     @NotResponseBody
     @ApiOperation("普通文件下载")

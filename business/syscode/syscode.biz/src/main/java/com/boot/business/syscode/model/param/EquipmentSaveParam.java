@@ -4,13 +4,12 @@ import com.boot.commons.core.model.param.ValidGroup;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
 public class EquipmentSaveParam {
 
-    @NotBlank(message = "修改时ID不能为空！", groups = {ValidGroup.upd.class})
+    @NotNull(message = "修改时ID不能为空！", groups = {ValidGroup.upd.class})
     @ApiModelProperty(value = "设备ID")
     private Long id;
 

@@ -58,7 +58,7 @@ public class SuperSecurityConfig extends WebSecurityConfigurerAdapter {
             if (cause instanceof BusinessException) {
                 errCode = ((BusinessException) cause).getCode();
             } else {
-                response.setStatus(401);
+                response.setStatus(403);
                 errCode = ErrCodeEnum.E_20010;
             }
             response.getWriter().println(JSONUtil.parse(R.fail(errCode)));
