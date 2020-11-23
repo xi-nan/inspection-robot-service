@@ -25,6 +25,9 @@ public class LogVideoDTO {
     @ApiModelProperty(value = "视频时长")
     private String videoDuration;
 
+    @ApiModelProperty(value = "操作用户")
+    private String creator;
+
     public static LogVideoDTO warp(LogVideo po) {
         if (po == null) {
             return null;

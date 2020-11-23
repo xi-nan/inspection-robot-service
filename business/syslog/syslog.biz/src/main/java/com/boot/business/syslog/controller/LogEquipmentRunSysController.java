@@ -33,6 +33,7 @@ public class LogEquipmentRunSysController {
     @PostMapping("/page")
     public IPage<LogEquipmentRunDTO> page(@RequestBody LogPageParam param) {
         return new LogEquipmentRun().selectPage(param.page(), Wrappers.<LogEquipmentRun>lambdaQuery()
+                .orderByDesc(LogEquipmentRun::getLogTime)
                 .ge(param.getLogTimeEnd() != null, LogEquipmentRun::getLogTime, param.getLogTimeStart())
                 .le(param.getLogTimeEnd() != null, LogEquipmentRun::getLogTime, param.getLogTimeEnd()))
                 .convert(LogEquipmentRunDTO::warp);

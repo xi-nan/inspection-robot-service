@@ -25,6 +25,9 @@ public class LogSysUserDTO {
     @ApiModelProperty(value = "操作类型")
     private LogSysUserOperationType operationType;
 
+    @ApiModelProperty(value = "操作用户")
+    private String creator;
+
 
     public static LogSysUserDTO warp(LogSysUser po) {
         if (po == null) {

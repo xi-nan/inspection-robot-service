@@ -14,11 +14,11 @@ public class EquipmentDTO {
     @ApiModelProperty(value = "设备ID")
     private Long id;
 
-//    @ApiModelProperty(value = "设备code")
-//    private String code;
-
     @ApiModelProperty(value = "关联账号")
     private Long userId;
+
+    @ApiModelProperty(value = "关联账号")
+    private String username;
 
     @ApiModelProperty(value = "PLC IP")
     private String plcIp;

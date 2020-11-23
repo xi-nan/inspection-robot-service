@@ -1,5 +1,7 @@
 package com.boot.business.sysuser.service;
 
+import com.boot.business.sysuser.model.dto.SysUserDTO;
+
 /**
  * SysUserFacade
  *
@@ -16,4 +18,5 @@ public interface SysUserFacade {
      */
     Long[] searchUser(String searchKey);
 
+    SysUserDTO getDtoById(Long id);
 }

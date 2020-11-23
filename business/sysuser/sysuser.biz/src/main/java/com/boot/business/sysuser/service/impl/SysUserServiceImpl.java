@@ -15,7 +15,10 @@ import com.boot.business.sysuser.model.param.SysUserSaveParam;
 import com.boot.business.sysuser.model.po.SysRole;
 import com.boot.business.sysuser.model.po.SysUser;
 import com.boot.business.sysuser.model.po.SysUserRole;
-import com.boot.business.sysuser.service.*;
+import com.boot.business.sysuser.service.ISysPermissionService;
+import com.boot.business.sysuser.service.ISysRoleService;
+import com.boot.business.sysuser.service.ISysUserRoleService;
+import com.boot.business.sysuser.service.ISysUserService;
 import com.boot.commons.core.exception.enums.ErrCodeEnum;
 import com.boot.commons.core.security.JwtTokenUtil;
 import com.boot.commons.core.security.JwtUser;
@@ -44,7 +47,7 @@ import java.util.stream.Collectors;
  * @date 2019/7/19
  */
 @Service
-public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService, UserDetailsService, SysUserFacade {
+public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService, UserDetailsService {
 
     @Autowired
     @Qualifier("adminAuthenticationManager")

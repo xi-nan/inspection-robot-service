@@ -18,13 +18,13 @@ import java.time.Duration;
  * @author XINAN
  * @date 2019/7/19
  */
-public interface ISysUserService extends IService<SysUser> {
+public interface ISysUserService extends IService<SysUser>, SysUserFacade {
 
     JwtUser login(SysUserLoginParam param, Duration expiration, Boolean autoRenewal);
 
     SysUser findByName(String name);
 
-    SysUserDTO getDtoById(Long id);
+//    SysUserDTO getDtoById(Long id);
 
     SysUser findByIdNotNull(Long id);
 

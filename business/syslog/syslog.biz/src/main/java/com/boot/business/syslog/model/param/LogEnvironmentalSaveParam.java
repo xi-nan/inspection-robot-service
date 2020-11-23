@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @author XINAN
  */
@@ -15,9 +17,11 @@ import lombok.NoArgsConstructor;
 public class LogEnvironmentalSaveParam {
 
     @ApiModelProperty(value = "日志记录时间")
+    @NotNull(message = "日志记录时间不可为空")
     private Long logTime;
 
     @ApiModelProperty(value = "设备ID")
+    @NotNull(message = "设备ID不可为空")
     private Long equipmentId;
 
     @ApiModelProperty(value = "温度")

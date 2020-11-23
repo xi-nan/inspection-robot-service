@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.boot.business.syscode.mapper.EquipmentMapper;
 import com.boot.business.syscode.model.dto.EquipmentDTO;
 import com.boot.business.syscode.model.po.Equipment;
+import com.boot.business.sysuser.service.SysUserFacade;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,6 +16,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class EquipmentService extends ServiceImpl<EquipmentMapper, Equipment> {
 
+    @Autowired
+    private SysUserFacade userFacade;
+
     public EquipmentDTO getById(Long id) {
         return this.warpDTO(super.getById(id));
     }
@@ -23,6 +28,7 @@ public class EquipmentService extends ServiceImpl<EquipmentMapper, Equipment> {
             return null;
         }
         EquipmentDTO dto = po.warpR(EquipmentDTO.class);
+        dto.setUsername(userFacade.getDtoById(po.getUserId()).getUsername());
         return dto;
     }
 }

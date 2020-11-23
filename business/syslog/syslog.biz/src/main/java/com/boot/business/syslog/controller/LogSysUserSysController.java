@@ -30,6 +30,7 @@ public class LogSysUserSysController {
     @PostMapping("/page")
     public IPage<LogSysUserDTO> page(@RequestBody LogPageParam param) {
         return new LogSysUser().selectPage(param.page(), Wrappers.<LogSysUser>lambdaQuery()
+                .orderByDesc(LogSysUser::getLogTime)
                 .ge(param.getLogTimeEnd() != null, LogSysUser::getLogTime, param.getLogTimeStart())
                 .le(param.getLogTimeEnd() != null, LogSysUser::getLogTime, param.getLogTimeEnd()))
                 .convert(LogSysUserDTO::warp);
