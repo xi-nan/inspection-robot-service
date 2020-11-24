@@ -61,4 +61,13 @@ public class QuestionSysController {
                 .orderByAsc(SysCode::getSort)
                 .page(param.page()).convert(QuestionDTO::warp);
     }
+
+    @ApiOperation("获取问题详情")
+    @GetMapping("/code/{code}")
+    public QuestionDTO one(@PathVariable String code) {
+        return QuestionDTO.warp(service.lambdaQuery()
+                .eq(SysCode::getParentCode, SysCodeEnum.QUESTIONS.name())
+                .eq(SysCode::getCode, code).one()
+        );
+    }
 }
