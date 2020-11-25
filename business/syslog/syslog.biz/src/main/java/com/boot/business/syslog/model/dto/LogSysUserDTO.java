@@ -25,7 +25,7 @@ public class LogSysUserDTO {
     @ApiModelProperty(value = "操作类型")
     private LogSysUserOperationType operationType;
 
-    @ApiModelProperty(value = "操作类型")
+    @ApiModelProperty(value = "操作类型中文描述")
     private String operationTypeStr;
 
     @ApiModelProperty(value = "操作用户")

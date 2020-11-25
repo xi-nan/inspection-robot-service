@@ -1,5 +1,6 @@
 package com.boot.business.syslog.model.po;
 
+import com.boot.business.historicaldata.model.enums.VideoType;
 import com.boot.business.syslog.model.enums.LogVideoOperationType;
 import com.boot.commons.core.model.po.BasePo;
 import io.swagger.annotations.ApiModelProperty;
@@ -32,6 +33,10 @@ public class LogVideo extends BasePo<LogVideo> {
     @ApiModelProperty(value = "视频名称")
     @Column(columnDefinition = "text COMMENT '视频名称'")
     private String videoName;
+
+    @ApiModelProperty(value = "视频类型")
+    @Column(columnDefinition = "VARCHAR(512) COMMENT '视频类型'")
+    private VideoType videoType;
 
     @ApiModelProperty(value = "视频时长")
     @Column(columnDefinition = "text COMMENT '视频时长'")

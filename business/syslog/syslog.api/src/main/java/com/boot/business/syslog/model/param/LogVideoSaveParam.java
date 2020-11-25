@@ -1,8 +1,10 @@
 package com.boot.business.syslog.model.param;
 
+import com.boot.business.historicaldata.model.enums.VideoType;
 import com.boot.business.syslog.model.enums.LogVideoOperationType;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class LogVideoSaveParam {
 
     @ApiModelProperty(value = "操作类型")
@@ -27,6 +30,9 @@ public class LogVideoSaveParam {
 
     @ApiModelProperty(value = "视频名称")
     private String videoName;
+
+    @ApiModelProperty(value = "视频类型")
+    private VideoType videoType;
 
     @ApiModelProperty(value = "视频时长")
     private String videoDuration;

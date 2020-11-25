@@ -11,5 +11,11 @@
 
     <artifactId>syslog.api</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.boot.inspection-robot-service.business</groupId>
+            <artifactId>historydata.api</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

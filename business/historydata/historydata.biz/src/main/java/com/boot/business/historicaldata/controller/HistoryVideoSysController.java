@@ -29,12 +29,15 @@ public class HistoryVideoSysController {
     public void add(@PathVariable VideoType type, @RequestBody HistoryVideoSaveParam param) {
         param.setVideoType(type);
         new HistoryVideo().warpT(param).insert();
-        logVideoFacade.saveLog(new LogVideoSaveParam(LogVideoOperationType.ADD,
-                System.currentTimeMillis(),
-                param.getFileId(),
-                param.getVideoName(),
-                param.getVideoDuration(),
-                param.getStartTime()));
+        logVideoFacade.saveLog(LogVideoSaveParam.builder()
+                .operationType(LogVideoOperationType.ADD)
+                .logTime(System.currentTimeMillis())
+                .videoType(type)
+                .fileId(param.getFileId())
+                .videoName(param.getVideoName())
+                .videoDuration(param.getVideoDuration())
+                .startTime(param.getStartTime())
+                .build());
     }
 
     @DeleteMapping("/{id}")
@@ -45,12 +48,15 @@ public class HistoryVideoSysController {
             return;
         }
         new HistoryVideo().deleteById(id);
-        logVideoFacade.saveLog(new LogVideoSaveParam(LogVideoOperationType.DEL,
-                System.currentTimeMillis(),
-                historyVideo.getFileId(),
-                historyVideo.getVideoName(),
-                historyVideo.getVideoDuration(),
-                historyVideo.getStartTime()));
+        logVideoFacade.saveLog(LogVideoSaveParam.builder()
+                .operationType(LogVideoOperationType.DEL)
+                .logTime(System.currentTimeMillis())
+                .videoType(historyVideo.getVideoType())
+                .fileId(historyVideo.getFileId())
+                .videoName(historyVideo.getVideoName())
+                .videoDuration(historyVideo.getVideoDuration())
+                .startTime(historyVideo.getStartTime())
+                .build());
     }
 
     @ApiOperation("获取视频列表(分页)")

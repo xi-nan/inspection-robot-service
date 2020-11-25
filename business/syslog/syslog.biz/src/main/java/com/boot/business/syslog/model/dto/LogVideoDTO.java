@@ -1,5 +1,6 @@
 package com.boot.business.syslog.model.dto;
 
+import com.boot.business.historicaldata.model.enums.VideoType;
 import com.boot.business.syslog.model.enums.LogVideoOperationType;
 import com.boot.business.syslog.model.po.LogVideo;
 import io.swagger.annotations.ApiModelProperty;
@@ -32,12 +33,23 @@ public class LogVideoDTO {
     @ApiModelProperty(value = "操作类型")
     private LogVideoOperationType operationType;
 
-    @ApiModelProperty(value = "操作类型")
+    @ApiModelProperty(value = "操作类型中文描述")
     private String operationTypeStr;
+
+    @ApiModelProperty(value = "视频类型")
+    private VideoType videoType;
+
+    @ApiModelProperty(value = "视频类型中文描述")
+    private String videoTypeStr;
 
     public void setOperationType(LogVideoOperationType operationType) {
         this.operationType = operationType;
         this.operationTypeStr = null == operationType ? "" : operationType.getDesc();
+    }
+
+    public void setVideoType(VideoType videoType) {
+        this.videoType = videoType;
+        this.videoTypeStr = null == operationType ? "" : videoType.getDesc();
     }
 
     public static LogVideoDTO warp(LogVideo po) {
