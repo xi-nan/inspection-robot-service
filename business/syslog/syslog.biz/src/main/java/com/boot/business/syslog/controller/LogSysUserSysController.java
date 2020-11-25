@@ -14,12 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/sys/log/sysUser")
 public class LogSysUserSysController {
 
-//    @ApiOperation("保存日志记录")
-//    @PostMapping("/save")
-//    public void add(@RequestBody LogSysUserSaveParam param) {
-//        new LogSysUser().warpT(param).insert();
-//    }
-
     @GetMapping("/details/{id}")
     @ApiOperation("查看详情")
     public LogSysUserDTO getById(@PathVariable Long id) {

@@ -1,5 +1,6 @@
 package com.boot.business.syslog.model.dto;
 
+import com.boot.business.syslog.model.enums.LogVideoOperationType;
 import com.boot.business.syslog.model.po.LogVideo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,9 @@ public class LogVideoDTO {
 
     @ApiModelProperty(value = "操作用户")
     private String creator;
+
+    @ApiModelProperty(value = "操作类型")
+    private LogVideoOperationType operationType;
 
     public static LogVideoDTO warp(LogVideo po) {
         if (po == null) {

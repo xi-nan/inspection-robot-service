@@ -1,5 +1,6 @@
 package com.boot.business.syslog.model.po;
 
+import com.boot.business.syslog.model.enums.LogVideoOperationType;
 import com.boot.commons.core.model.po.BasePo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -39,5 +40,9 @@ public class LogVideo extends BasePo<LogVideo> {
     @ApiModelProperty(value = "开始录制时间")
     @Column(columnDefinition = "BIGINT(13) COMMENT '开始录制时间'")
     private Long startTime;
+
+    @ApiModelProperty(value = "操作类型")
+    @Column(columnDefinition = "varchar(512) COMMENT '操作类型'")
+    private LogVideoOperationType operationType;
 
 }
