@@ -32,6 +32,14 @@ public class LogVideoDTO {
     @ApiModelProperty(value = "操作类型")
     private LogVideoOperationType operationType;
 
+    @ApiModelProperty(value = "操作类型")
+    private String operationTypeStr;
+
+    public void setOperationType(LogVideoOperationType operationType) {
+        this.operationType = operationType;
+        this.operationTypeStr = null == operationType ? "" : operationType.getDesc();
+    }
+
     public static LogVideoDTO warp(LogVideo po) {
         if (po == null) {
             return null;

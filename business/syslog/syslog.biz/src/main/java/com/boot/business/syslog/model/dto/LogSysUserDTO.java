@@ -25,9 +25,16 @@ public class LogSysUserDTO {
     @ApiModelProperty(value = "操作类型")
     private LogSysUserOperationType operationType;
 
+    @ApiModelProperty(value = "操作类型")
+    private String operationTypeStr;
+
     @ApiModelProperty(value = "操作用户")
     private String creator;
 
+    public void setOperationType(LogSysUserOperationType operationType) {
+        this.operationType = operationType;
+        this.operationTypeStr = null == operationType ? "" : operationType.getDesc();
+    }
 
     public static LogSysUserDTO warp(LogSysUser po) {
         if (po == null) {

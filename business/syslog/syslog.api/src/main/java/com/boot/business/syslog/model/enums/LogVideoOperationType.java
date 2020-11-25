@@ -12,7 +12,7 @@ public enum LogVideoOperationType {
     ADD("新增视频"),
     DEL("删除视频");
 
-    public final String desc;
+    private final String desc;
 
     LogVideoOperationType(String desc) {
         this.desc = desc;

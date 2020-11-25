@@ -15,7 +15,7 @@ public enum LogSysUserOperationType {
     RESET_PASSWORD("重置密码"),
     DEL_USER("删除账号");
 
-    public final String desc;
+    private final String desc;
 
     LogSysUserOperationType(String desc) {
         this.desc = desc;
