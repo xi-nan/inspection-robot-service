@@ -19,7 +19,8 @@ public enum LocalFileErrCodeEnum implements IErrCodeEnum {
     E_29507(29507, "分片编号不符合预期值,请联系开发人员进行处理.{}"),
     E_29508(29508, "分片文件大小不符合预期值,请联系开发人员进行处理.{}"),
     E_29509(29509, "分片文件未全部上传无法进行合并"),
-    E_29510(29510, "文件合并失败，请重试!{}");
+    E_29510(29510, "文件合并失败，请重试!{}"),
+    E_29511(29511, "文件转码失败，请联系开发人员进行处理!{}");
 
     private final Integer code;
     private final String desc;
