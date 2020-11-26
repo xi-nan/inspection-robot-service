@@ -32,6 +32,7 @@ public class LogAlarmAppController {
     public IPage<LogAlarmDTO> page(@RequestBody LogPageParam param) {
         return new LogAlarm().selectPage(param.page(), Wrappers.<LogAlarm>lambdaQuery()
                 .orderByDesc(LogAlarm::getLogTime)
+                .ge(param.getEquipmentId() != null, LogAlarm::getEquipmentId, param.getEquipmentId())
                 .ge(param.getLogTimeEnd() != null, LogAlarm::getLogTime, param.getLogTimeStart())
                 .le(param.getLogTimeEnd() != null, LogAlarm::getLogTime, param.getLogTimeEnd()))
                 .convert(LogAlarmDTO::warp);

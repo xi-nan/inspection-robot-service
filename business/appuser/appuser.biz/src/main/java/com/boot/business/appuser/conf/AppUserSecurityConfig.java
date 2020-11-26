@@ -46,20 +46,7 @@ public class AppUserSecurityConfig extends SuperSecurityConfig {
     public void configure(HttpSecurity httpSecurity) throws Exception {
         super.defaultConfigure(httpSecurity.antMatcher(AppUserJwtFilter.ANT_PATTERN));
         httpSecurity.authorizeRequests()
-                .antMatchers("/app/user/checkMobile").permitAll()
-                .antMatchers("/app/user/sendRegisterCode").permitAll()
-                .antMatchers("/app/user/register").permitAll()
                 .antMatchers("/app/user/login").permitAll()
-                .antMatchers("/app/user/sendResetPwdCode").permitAll()
-                .antMatchers("/app/user/resetPwd").permitAll()
-                .antMatchers("/app/user/wp/auth").permitAll()
-                .antMatchers("/app/user/wp/jsapiSignature").permitAll()
-                // 绑定手机发送验证码
-                .antMatchers("/app/sms/sendSmsCode/bindMobile").permitAll()
-                // 验证码校验手机号进行绑定
-                .antMatchers("/app/user/code/bindMobile").permitAll()
-                // 用户协议
-                .antMatchers("/app/userAgreement/*").permitAll()
                 // 所有请求都需要登陆认证 一定要放在放行配置之后 否则会被拦截
                 .anyRequest().hasRole(UserType.APP.name());
         // 所有请求全部放行 使用注解控制

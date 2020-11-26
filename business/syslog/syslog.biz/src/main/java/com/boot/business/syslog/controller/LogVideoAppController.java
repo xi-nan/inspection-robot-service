@@ -31,6 +31,7 @@ public class LogVideoAppController {
     public IPage<LogVideoDTO> page(@RequestBody LogPageParam param) {
         return new LogVideo().selectPage(param.page(), Wrappers.<LogVideo>lambdaQuery()
                 .orderByDesc(LogVideo::getLogTime)
+                .ge(param.getEquipmentId() != null, LogVideo::getEquipmentId, param.getEquipmentId())
                 .ge(param.getLogTimeEnd() != null, LogVideo::getLogTime, param.getLogTimeStart())
                 .le(param.getLogTimeEnd() != null, LogVideo::getLogTime, param.getLogTimeEnd()))
                 .convert(LogVideoDTO::warp);

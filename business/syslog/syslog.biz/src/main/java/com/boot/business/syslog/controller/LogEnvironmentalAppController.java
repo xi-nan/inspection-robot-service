@@ -32,6 +32,7 @@ public class LogEnvironmentalAppController {
     public IPage<LogEnvironmentalDTO> page(@RequestBody LogPageParam param) {
         return new LogEnvironmental().selectPage(param.page(), Wrappers.<LogEnvironmental>lambdaQuery()
                 .orderByDesc(LogEnvironmental::getLogTime)
+                .ge(param.getEquipmentId() != null, LogEnvironmental::getEquipmentId, param.getEquipmentId())
                 .ge(param.getLogTimeEnd() != null, LogEnvironmental::getLogTime, param.getLogTimeStart())
                 .le(param.getLogTimeEnd() != null, LogEnvironmental::getLogTime, param.getLogTimeEnd()))
                 .convert(LogEnvironmentalDTO::warp);
