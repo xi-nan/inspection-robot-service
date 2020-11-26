@@ -43,6 +43,9 @@ public class FileExists {
     @ApiModelProperty(value = "文件保存磁盘名称")
     private String saveName;
 
+    @ApiModelProperty(value = "原始文件ID,用于转码等操作后记录原始文件信息")
+    private Long originalId;
+
     public static FileExists nonExistent() {
         FileExists fileExists = new FileExists();
         fileExists.setStatus(-1);

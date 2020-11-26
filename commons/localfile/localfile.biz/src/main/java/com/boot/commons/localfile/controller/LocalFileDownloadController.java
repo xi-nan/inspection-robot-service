@@ -37,7 +37,7 @@ public class LocalFileDownloadController {
     @ApiOperation("获取文件信息")
     @GetMapping(value = "/info/{fileId}/public")
     public LocalFileDTO info(@PathVariable(value = "fileId") Long fileId) {
-        return service.getById(fileId).warpR(LocalFileDTO.class);
+        return service.findById(fileId);
     }
 
     @NotResponseBody

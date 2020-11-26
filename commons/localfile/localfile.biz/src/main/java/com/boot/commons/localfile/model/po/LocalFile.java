@@ -59,6 +59,10 @@ public class LocalFile extends BasePo<LocalFile> {
     @Column(columnDefinition = "BIGINT(20) COMMENT '父级ID'")
     private Long parentId;
 
+    @ApiModelProperty(value = "原始文件ID,用于转码等操作后记录原始文件信息")
+    @Column(columnDefinition = "BIGINT(20) COMMENT '原始文件ID,用于转码等操作后记录原始文件信息'")
+    private Long originalId;
+
     public void setSaveDir(String saveDir) {
         this.saveDir = saveDir + (!saveDir.endsWith("/") ? "/" : "");
     }

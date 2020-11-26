@@ -29,4 +29,7 @@ public class LocalFileDTO {
     @ApiModelProperty(value = "文件大小")
     private Long size;
 
+    @ApiModelProperty(value = "原始文件ID,用于转码等操作后记录原始文件信息")
+    private Long originalId;
+
 }

@@ -5,10 +5,12 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.boot.commons.core.exception.enums.ErrCodeEnum;
 import com.boot.commons.core.lock.LockAction;
 import com.boot.commons.core.properties.SiteProperties;
 import com.boot.commons.localfile.mapper.LocalFileMapper;
 import com.boot.commons.localfile.model.dto.FileExists;
+import com.boot.commons.localfile.model.dto.LocalFileDTO;
 import com.boot.commons.localfile.model.enums.LocalFileErrCodeEnum;
 import com.boot.commons.localfile.model.po.LocalFile;
 import com.boot.commons.localfile.utils.FileMd5Util;
@@ -20,10 +22,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
-public class LocalFileService extends ServiceImpl<LocalFileMapper, LocalFile> {
+public class LocalFileService extends ServiceImpl<LocalFileMapper, LocalFile> implements LocalFileFacade {
 
     /**
      * 分片上传前创建父文件记录
@@ -157,10 +160,38 @@ public class LocalFileService extends ServiceImpl<LocalFileMapper, LocalFile> {
         return save.getId();
     }
 
-    public File loadFile(Long id) {
-        LocalFile file = super.getById(id);
+    @Override
+    public File loadFile(Long fileId) {
+        LocalFile file = super.getById(fileId);
         LocalFileErrCodeEnum.E_29504.throwIf(null == file || !FileUtil.exist(file.getSaveDir() + file.getSaveName()));
         return new File(file.getSaveDir() + file.getSaveName());
     }
 
+    @Override
+    public LocalFileDTO findById(Long fileId) {
+        LocalFile localFile = super.getById(fileId);
+        if (localFile == null) {
+            return null;
+        }
+        return localFile.warpR(LocalFileDTO.class);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void recodeVideo(Long fileId, Function<Long, Boolean> func) {
+        LocalFile newFile = super.lambdaQuery().eq(LocalFile::getOriginalId, fileId).one();
+        if (null == newFile) {
+            LocalFile file = super.getById(fileId);
+            LocalFileErrCodeEnum.E_29504.throwIf(null == file || !FileUtil.exist(file.getSaveDir() + file.getSaveName()));
+            String saveName = FileUtils.genName(FileUtil.extName(file.getName()));
+            FileUtils.recode(file.getSaveDir() + file.getSaveName(), file.getSaveDir() + saveName);
+            newFile = new LocalFile();
+            newFile.setName(file.getName());
+            newFile.setSaveName(saveName);
+            newFile.setSaveDir(file.getSaveDir());
+            newFile.setSize(file.getSize());
+            newFile.insert();
+        }
+        ErrCodeEnum.E_10021.throwIf(null == newFile.getId() || !func.apply(newFile.getId()));
+    }
 }

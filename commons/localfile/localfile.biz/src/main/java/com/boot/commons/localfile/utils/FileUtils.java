@@ -4,14 +4,8 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
 import com.boot.commons.core.properties.SiteProperties;
 import com.boot.commons.localfile.model.enums.LocalFileErrCodeEnum;
-import org.bytedeco.ffmpeg.avcodec.AVPacket;
-import org.bytedeco.ffmpeg.global.avcodec;
-import org.bytedeco.ffmpeg.global.avutil;
-import org.bytedeco.javacv.FFmpegFrameGrabber;
-import org.bytedeco.javacv.FFmpegFrameRecorder;
-import org.bytedeco.javacv.FrameGrabber;
-import org.bytedeco.javacv.FrameRecorder;
 import org.springframework.web.multipart.MultipartFile;
+import ws.schild.jave.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -41,9 +35,9 @@ public class FileUtils {
 
     public static void mergeFile(List<String> sliceFilePaths, String saveDir, String saveName) throws IOException {
         FileUtil.mkdir(saveDir);
-        String originalFileSaveDir = saveDir + "original/";
-        FileUtil.mkdir(originalFileSaveDir);
-        File originalFile = new File(originalFileSaveDir, saveName);
+        // String originalFileSaveDir = saveDir + "original/";
+        // FileUtil.mkdir(originalFileSaveDir);
+        File originalFile = new File(saveDir, saveName);
         if (!originalFile.exists()) {
             FileChannel out = new FileOutputStream(originalFile).getChannel();
             for (String slicePath : sliceFilePaths) {
@@ -54,47 +48,36 @@ public class FileUtils {
             }
             out.close();
         }
-        if (originalFile.exists() && "mp4".equals(FileUtil.extName(saveName).toLowerCase())) {
-            recode(originalFile.getAbsolutePath(), saveDir + saveName);
-        }
+        // if (originalFile.exists() && "mp4".equals(FileUtil.extName(saveName).toLowerCase())) {
+        //     recode(originalFile.getAbsolutePath(), saveDir + saveName);
+        // }
     }
 
-    /**
-     * 视频转码
-     */
-    public static void recode(String filePath, String newFilePath) {
-        // String filePath = saveDir+saveName;
-        // String ext = filePath.substring(filePath.lastIndexOf("."));
-        // String newFilePath = filePath.replace(ext, ".mp4");
+    public static void recode(String sourcePath, String targetPath) {
+        File source = new File(sourcePath);
+        File target = new File(targetPath);
+        AudioAttributes audio = new AudioAttributes();
+        audio.setCodec("libmp3lame");//aac
+        //比特率是指每秒传送的比特(bit)数。单位为 bps(Bit Per Second)，比特率越高，传送数据速度越快
+        audio.setBitRate(64 * 1024);//设置比特率
+        audio.setChannels(1);//设置声音频道
+        audio.setSamplingRate(22050);//设置节录率
+        VideoAttributes video = new VideoAttributes();
+        video.setCodec("h264");
+        video.setBitRate(512 * 1024);
+        //比特率是指每秒传送的比特(bit)数。单位为 bps(Bit Per Second)，比特率越高，传送数据速度越快
+        // video.setBitRate(new Integer(800000));//设置比特率
+        video.setFrameRate(30);//设置帧率,越大越流畅，越小越卡
+        EncodingAttributes attrs = new EncodingAttributes();
+        attrs.setFormat("mp4");
+        attrs.setAudioAttributes(audio);
+        attrs.setVideoAttributes(video);
+        Encoder encoder = new Encoder();
         try {
-            FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(filePath);
-            grabber.start();
-            FFmpegFrameRecorder recorder = new FFmpegFrameRecorder(newFilePath, grabber.getImageWidth(),
-                    grabber.getImageHeight(), grabber.getVideoBitrate());
-            recorder.setVideoCodec(avcodec.AV_CODEC_ID_H264);
-            recorder.setFormat("mp4");
-            recorder.setPixelFormat(avutil.AV_PIX_FMT_YUVJ420P);
-            recorder.setFrameRate(grabber.getFrameRate());
-            int bitrate = grabber.getVideoBitrate();
-            if (bitrate == 0) {
-                bitrate = grabber.getAudioBitrate();
-            }
-            recorder.setVideoBitrate(bitrate);
-            recorder.start(grabber.getFormatContext());
-            AVPacket packet;
-            long dts = 0;
-            while ((packet = grabber.grabPacket()) != null) {
-                long currentDts = packet.dts();
-                if (currentDts >= dts) {
-                    recorder.recordPacket(packet);
-                }
-                dts = currentDts;
-            }
-            recorder.stop();
-            recorder.release();
-            grabber.stop();
-        } catch (FrameGrabber.Exception | FrameRecorder.Exception e) {
-            LocalFileErrCodeEnum.E_29511.throwThis(e.getMessage());
+            encoder.encode(new MultimediaObject(source), target, attrs);
+        } catch (IllegalArgumentException | EncoderException e) {
+            e.printStackTrace();
+            LocalFileErrCodeEnum.E_29511.throwThis(sourcePath, targetPath, e.getMessage());
         }
     }
 }

@@ -10,7 +10,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>localfile.biz</artifactId>
-
+<properties>
+    <schild.version>2.7.1</schild.version>
+</properties>
     <dependencies>
         <dependency>
             <artifactId>localfile.api</artifactId>
@@ -18,9 +20,19 @@
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>org.bytedeco</groupId>
-            <artifactId>javacv-platform</artifactId>
-            <version>1.5.3</version>
+            <groupId>ws.schild</groupId>
+            <artifactId>jave-all-deps</artifactId>
+            <version>${schild.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ws.schild</groupId>
+            <artifactId>jave-core</artifactId>
+            <version>${schild.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ws.schild</groupId>
+            <artifactId>jave-nativebin-win64</artifactId>
+            <version>${schild.version}</version>
         </dependency>
     </dependencies>
 

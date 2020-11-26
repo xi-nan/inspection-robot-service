@@ -29,6 +29,10 @@ public class HistoryVideo extends BasePo<HistoryVideo> {
     @Column(columnDefinition = "BIGINT(20) COMMENT '视频文件ID'")
     private Long fileId;
 
+    @ApiModelProperty(value = "视频文件已转码")
+    @Column(columnDefinition = "bit(1) DEFAULT 0 COMMENT '视频文件已转码'")
+    private Boolean isRecode;
+
     @ApiModelProperty(value = "视频名称")
     @Column(columnDefinition = "VARCHAR(512) COMMENT '视频名称'")
     private String videoName;

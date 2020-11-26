@@ -1,7 +1,6 @@
 package com.boot.business.historicaldata.model.dto;
 
 import com.boot.business.historicaldata.model.enums.VideoType;
-import com.boot.business.historicaldata.model.po.HistoryVideo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +21,9 @@ public class HistoryVideoDTO {
     @ApiModelProperty(value = "视频文件ID")
     private Long fileId;
 
+    @ApiModelProperty(value = "视频文件已转码,未转码播放时提示正在转码")
+    private Boolean isRecode;
+
     @ApiModelProperty(value = "视频名称")
     private String videoName;
 
@@ -34,10 +36,4 @@ public class HistoryVideoDTO {
     @ApiModelProperty(value = "开始录制时间")
     private Long startTime;
 
-    public static HistoryVideoDTO warp(HistoryVideo po) {
-        if (po == null) {
-            return null;
-        }
-        return po.warpR(HistoryVideoDTO.class);
-    }
 }
