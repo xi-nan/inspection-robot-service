@@ -3,7 +3,6 @@ package com.boot.commons.core.conf;
 import com.boot.commons.core.properties.SiteProperties;
 import com.boot.commons.core.security.JwtProperties;
 import com.github.xiaoymin.swaggerbootstrapui.annotations.EnableSwaggerBootstrapUI;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -23,7 +22,6 @@ import java.util.Collections;
  * @date 2019/7/23
  */
 @Configuration
-@EnableAutoConfiguration
 @EnableSwagger2
 @EnableSwaggerBootstrapUI
 class SwaggerConfig {

@@ -2,7 +2,6 @@ package com.boot.commons.core.conf;
 
 import com.boot.commons.core.properties.SiteProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +26,6 @@ import java.util.List;
  * @date 2019/7/23
  */
 @Configuration
-@EnableAutoConfiguration
 public class WebApplicationConfig implements WebMvcConfigurer {
 
     @Override
