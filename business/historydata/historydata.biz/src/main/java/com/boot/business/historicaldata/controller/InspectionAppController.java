@@ -53,7 +53,7 @@ public class InspectionAppController {
     @PostMapping("/page")
     public IPage<HistoryInspectionDTO> page(@RequestBody HistoryInspectionPageParam param) {
         return new HistoryInspection().selectPage(param.page(), Wrappers.<HistoryInspection>lambdaQuery()
-                .eq(HistoryInspection::getEquipmentId, param.getEquipmentId())
+                .eq(param.getEquipmentId() != null, HistoryInspection::getEquipmentId, param.getEquipmentId())
                 .ge(param.getStartTime() != null, HistoryInspection::getStartTime, param.getStartTime())
                 .le(param.getEndTime() != null, HistoryInspection::getStartTime, param.getEndTime()))
                 .convert(HistoryInspectionDTO::warp);
