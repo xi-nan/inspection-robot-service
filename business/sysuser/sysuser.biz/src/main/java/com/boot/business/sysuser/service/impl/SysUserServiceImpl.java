@@ -188,18 +188,4 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         return dto;
     }
-
-    @Override
-    public Long[] searchUser(String searchKey) {
-        if (StrUtil.isBlank(searchKey)) {
-            return new Long[0];
-        }
-        return super.list(Wrappers.<SysUser>lambdaQuery()
-                .like(SysUser::getUsername, searchKey)
-                .or()
-                .like(SysUser::getNickName, searchKey)
-                .or()
-                .like(SysUser::getMobile, searchKey))
-                .stream().map(SysUser::getId).toArray(Long[]::new);
-    }
 }

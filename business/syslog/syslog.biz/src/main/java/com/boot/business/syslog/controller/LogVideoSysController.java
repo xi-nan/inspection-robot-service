@@ -14,12 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/sys/log/video")
 public class LogVideoSysController {
 
-//    @ApiOperation("保存日志记录")
-//    @PostMapping("/save")
-//    public void add(@RequestBody LogVideoSaveParam param) {
-//        new LogVideo().warpT(param).insert();
-//    }
-
     @GetMapping("/details/{id}")
     @ApiOperation("查看详情")
     public LogVideoDTO getById(@PathVariable Long id) {

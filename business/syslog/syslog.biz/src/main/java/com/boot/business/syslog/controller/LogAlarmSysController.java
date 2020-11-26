@@ -3,7 +3,6 @@ package com.boot.business.syslog.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.boot.business.syslog.model.dto.LogAlarmDTO;
-import com.boot.business.syslog.model.param.LogAlarmSaveParam;
 import com.boot.business.syslog.model.param.LogPageParam;
 import com.boot.business.syslog.model.po.LogAlarm;
 import io.swagger.annotations.Api;
@@ -14,12 +13,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/sys/log/alarm")
 public class LogAlarmSysController {
-
-    @ApiOperation("保存日志记录")
-    @PostMapping("/save")
-    public void add(@RequestBody LogAlarmSaveParam param) {
-        new LogAlarm().warpT(param).insert();
-    }
 
     @GetMapping("/details/{id}")
     @ApiOperation("查看详情")

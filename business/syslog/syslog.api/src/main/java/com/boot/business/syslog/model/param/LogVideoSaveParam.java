@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @author XINAN
  */
@@ -19,11 +21,15 @@ import lombok.NoArgsConstructor;
 @Builder
 public class LogVideoSaveParam {
 
+    @ApiModelProperty(value = "日志记录时间")
+    private Long logTime = System.currentTimeMillis();
+
     @ApiModelProperty(value = "操作类型")
     private LogVideoOperationType operationType;
 
-    @ApiModelProperty(value = "日志记录时间")
-    private Long logTime;
+    @ApiModelProperty(value = "设备ID")
+    @NotNull(message = "设备ID不可为空")
+    private Long equipmentId;
 
     @ApiModelProperty(value = "视频文件ID")
     private Long fileId;

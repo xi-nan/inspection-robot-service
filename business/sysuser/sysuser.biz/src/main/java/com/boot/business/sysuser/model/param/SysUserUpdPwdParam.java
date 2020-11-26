@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
  * @date 2019/7/22
  */
 @Data
-public class SysUserResetPwdParam {
+public class SysUserUpdPwdParam {
 
     @ApiModelProperty(value = "旧密码", required = true)
     @NotBlank(message = "旧密码不能为空")

@@ -22,6 +22,10 @@ import javax.persistence.Entity;
 @Table(appliesTo = "log_video", comment = "视频日志")
 public class LogVideo extends BasePo<LogVideo> {
 
+    @ApiModelProperty(value = "设备ID")
+    @Column(columnDefinition = "BIGINT(20) COMMENT '设备ID'")
+    private Long equipmentId;
+
     @ApiModelProperty(value = "视频文件ID")
     @Column(columnDefinition = "BIGINT(20) COMMENT '视频文件ID'")
     private Long fileId;

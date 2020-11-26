@@ -9,6 +9,9 @@ import lombok.EqualsAndHashCode;
 @Data
 public class HistoryVideoPageParam extends PageParam {
 
+    @ApiModelProperty(value = "设备ID")
+    private Long equipmentId;
+
     @ApiModelProperty(value = "视频名称搜索")
     private String videoNameLike;
 

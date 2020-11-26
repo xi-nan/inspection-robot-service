@@ -1,11 +1,9 @@
 package com.boot.business.sysuser.model.param;
 
-import com.boot.business.sysuser.model.enums.LoginPlatform;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 /**
  * AdminLoginParam
@@ -14,13 +12,7 @@ import javax.validation.constraints.NotNull;
  * @date 2019/7/22
  */
 @Data
-public class SysUserLoginParam
-//        extends ImgValidCodeParam
-{
-
-    @ApiModelProperty(value = "登录平台", required = true)
-    @NotNull(message = "登录平台不能为空")
-    private LoginPlatform loginPlatform;
+public class SysUserLoginParam {
 
     @ApiModelProperty(value = "登录名", required = true)
     @NotBlank(message = "登录名不能为空")

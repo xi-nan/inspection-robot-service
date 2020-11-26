@@ -18,6 +18,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LogVideoDTO {
 
+    @ApiModelProperty(value = "设备ID")
+    private Long equipmentId;
+
     @ApiModelProperty(value = "日志记录时间")
     private Long logTime;
 

@@ -7,7 +7,18 @@ package com.boot.commons.core.security;
  * @date 2020/6/8
  */
 public enum UserType {
-    ADMIN,
-    APP,
-    STORE
+    ADMIN("管理员账号"),
+    APP("客户端账号");
+
+
+    private final String desc;
+
+    UserType(String desc) {
+        this.desc = desc;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
 }

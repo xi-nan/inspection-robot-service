@@ -2,6 +2,7 @@ package com.boot.business.syslog.model.po;
 
 import com.boot.business.syslog.model.enums.LogSysUserOperationType;
 import com.boot.commons.core.model.po.BasePo;
+import com.boot.commons.core.security.UserType;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -32,5 +33,9 @@ public class LogSysUser extends BasePo<LogSysUser> {
     @ApiModelProperty(value = "操作类型")
     @Column(columnDefinition = "text COMMENT '操作类型'")
     private LogSysUserOperationType operationType;
+
+    @ApiModelProperty(value = "用户类型")
+    @Column(columnDefinition = "varchar(512) COMMENT '用户类型'")
+    private UserType userType;
 
 }

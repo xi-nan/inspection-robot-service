@@ -10,8 +10,8 @@ package com.boot.business.syslog.model.enums;
  */
 public enum LogAlarmType {
 
-    ROBOT_STATUS("机器人状态"),
-    ENVIRONMENTAL_PARAMETERS("环境参数"),
+    ROBOT_STATUS("机器人状态异常"),
+    ENVIRONMENTAL_PARAMETERS("环境参数异常"),
     CAMERA_MONITORING_ALARM("摄像头监测报警");
 
     public final String desc;

@@ -21,6 +21,10 @@ import javax.persistence.Entity;
 @Table(appliesTo = "log_alarm", comment = "报警日志")
 public class LogAlarm extends BasePo<LogAlarm> {
 
+    @ApiModelProperty(value = "设备ID")
+    @Column(columnDefinition = "BIGINT(20) COMMENT '设备ID'")
+    private Long equipmentId;
+
     @ApiModelProperty(value = "日志记录时间")
     @Column(columnDefinition = "BIGINT(13) COMMENT '日志记录时间'")
     private Long logTime;

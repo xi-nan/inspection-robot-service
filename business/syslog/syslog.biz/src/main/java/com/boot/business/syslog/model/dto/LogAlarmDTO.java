@@ -17,6 +17,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LogAlarmDTO {
 
+    @ApiModelProperty(value = "设备ID")
+    private Long equipmentId;
+
     @ApiModelProperty(value = "日志记录时间")
     private Long logTime;
 
@@ -24,11 +27,18 @@ public class LogAlarmDTO {
     private LogAlarmType alarmType;
 
     @ApiModelProperty(value = "报警位置")
+    private String alarmTypeStr;
+
+    @ApiModelProperty(value = "报警位置中文描述")
     private String location;
 
     @ApiModelProperty(value = "日志内容")
     private String content;
 
+    public void setAlarmType(LogAlarmType alarmType) {
+        this.alarmType = alarmType;
+        this.alarmTypeStr = null == alarmType ? "" : alarmType.getDesc();
+    }
 
     public static LogAlarmDTO warp(LogAlarm po) {
         if (po == null) {

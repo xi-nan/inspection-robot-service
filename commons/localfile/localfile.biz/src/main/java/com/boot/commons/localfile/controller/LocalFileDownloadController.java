@@ -25,9 +25,9 @@ import java.nio.charset.StandardCharsets;
  * @date 2020/11/9
  */
 
-@Api(tags = "后台-文件下载相关")
+@Api(tags = "通用-文件下载相关")
 @RestController
-@RequestMapping(value = "/sys/file/download")
+@RequestMapping(value = {"/app/file/download", "/sys/file/download"})
 public class LocalFileDownloadController {
 
     @Autowired

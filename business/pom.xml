@@ -15,6 +15,7 @@
     <modules>
         <!-- 系统用户 编号01 -->
         <module>sysuser</module>
+        <module>appuser</module>
         <!-- 系统日志 编号02 -->
         <module>syslog</module>
         <!-- 系统手册 编号03 -->

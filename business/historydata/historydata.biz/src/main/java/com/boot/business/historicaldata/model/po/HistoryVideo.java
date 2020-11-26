@@ -21,6 +21,10 @@ import javax.persistence.Entity;
 @Table(appliesTo = "history_video", comment = "历史视频")
 public class HistoryVideo extends BasePo<HistoryVideo> {
 
+    @ApiModelProperty(value = "设备ID")
+    @Column(columnDefinition = "BIGINT(20) COMMENT '设备ID'")
+    private Long equipmentId;
+
     @ApiModelProperty(value = "视频文件ID")
     @Column(columnDefinition = "BIGINT(20) COMMENT '视频文件ID'")
     private Long fileId;

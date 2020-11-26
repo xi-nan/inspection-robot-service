@@ -3,7 +3,6 @@ package com.boot.business.syslog.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.boot.business.syslog.model.dto.LogEnvironmentalDTO;
-import com.boot.business.syslog.model.param.LogEnvironmentalSaveParam;
 import com.boot.business.syslog.model.param.LogPageParam;
 import com.boot.business.syslog.model.po.LogEnvironmental;
 import io.swagger.annotations.Api;
@@ -14,12 +13,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/sys/log/environmental")
 public class LogEnvironmentalSysController {
-
-    @ApiOperation("保存日志记录")
-    @PostMapping("/save")
-    public void add(@RequestBody LogEnvironmentalSaveParam param) {
-        new LogEnvironmental().warpT(param).insert();
-    }
 
     @GetMapping("/details/{id}")
     @ApiOperation("查看详情")

@@ -17,9 +17,9 @@ import java.io.IOException;
  * @date 2020/11/9
  */
 
-@Api(tags = "后台-文件上传相关")
+@Api(tags = "通用-文件上传相关")
 @RestController
-@RequestMapping(value = "/sys/file/upload")
+@RequestMapping(value = {"/app/file/upload", "/sys/file/upload"})
 public class LocalFileUploadController {
 
     @Autowired

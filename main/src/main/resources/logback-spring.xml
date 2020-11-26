@@ -108,6 +108,7 @@
 
 
     <logger name="com.github.binarywang.wxpay" level="DEBUG"/>
+    <logger name="com.boot" level="DEBUG"/>
 
     <!-- 开发环境日志级别为DEBUG/并且开发环境不写日志文件 -->
     <springProfile name="dev">

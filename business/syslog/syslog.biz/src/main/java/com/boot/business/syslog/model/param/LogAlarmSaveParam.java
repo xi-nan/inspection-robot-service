@@ -18,6 +18,10 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class LogAlarmSaveParam {
 
+    @ApiModelProperty(value = "设备ID")
+    @NotNull(message = "设备ID不可为空")
+    private Long equipmentId;
+
     @ApiModelProperty(value = "日志记录时间")
     @NotNull(message = "日志记录时间不可为空")
     private Long logTime;

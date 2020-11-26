@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.boot.business.historicaldata.model.dto.HistoryVideoDTO;
 import com.boot.business.historicaldata.model.enums.VideoType;
 import com.boot.business.historicaldata.model.param.HistoryVideoPageParam;
-import com.boot.business.historicaldata.model.param.HistoryVideoSaveParam;
 import com.boot.business.historicaldata.model.po.HistoryVideo;
 import com.boot.business.syslog.model.enums.LogVideoOperationType;
 import com.boot.business.syslog.model.param.LogVideoSaveParam;
@@ -24,22 +23,6 @@ public class HistoryVideoSysController {
     @Autowired
     private LogVideoFacade logVideoFacade;
 
-    @ApiOperation("保存视频记录")
-    @PostMapping("/{type}/save")
-    public void add(@PathVariable VideoType type, @RequestBody HistoryVideoSaveParam param) {
-        param.setVideoType(type);
-        new HistoryVideo().warpT(param).insert();
-        logVideoFacade.saveLog(LogVideoSaveParam.builder()
-                .operationType(LogVideoOperationType.ADD)
-                .logTime(System.currentTimeMillis())
-                .videoType(type)
-                .fileId(param.getFileId())
-                .videoName(param.getVideoName())
-                .videoDuration(param.getVideoDuration())
-                .startTime(param.getStartTime())
-                .build());
-    }
-
     @DeleteMapping("/{id}")
     @ApiOperation("删除视频")
     public void getById(@PathVariable Long id) {
@@ -50,8 +33,8 @@ public class HistoryVideoSysController {
         new HistoryVideo().deleteById(id);
         logVideoFacade.saveLog(LogVideoSaveParam.builder()
                 .operationType(LogVideoOperationType.DEL)
-                .logTime(System.currentTimeMillis())
                 .videoType(historyVideo.getVideoType())
+                .equipmentId(historyVideo.getEquipmentId())
                 .fileId(historyVideo.getFileId())
                 .videoName(historyVideo.getVideoName())
                 .videoDuration(historyVideo.getVideoDuration())
@@ -64,6 +47,7 @@ public class HistoryVideoSysController {
     public IPage<HistoryVideoDTO> page(@PathVariable VideoType type, @RequestBody HistoryVideoPageParam param) {
         return new HistoryVideo().selectPage(param.page(), Wrappers.<HistoryVideo>lambdaQuery()
                 .eq(HistoryVideo::getVideoType, type)
+                .eq(HistoryVideo::getEquipmentId, param.getEquipmentId())
                 .like(StrUtil.isNotBlank(param.getVideoNameLike()), HistoryVideo::getVideoName, param.getVideoNameLike())
                 .ge(param.getUpTimeEnd() != null, HistoryVideo::getCreateTime, param.getUpTimeStart())
                 .le(param.getUpTimeEnd() != null, HistoryVideo::getCreateTime, param.getUpTimeEnd()))

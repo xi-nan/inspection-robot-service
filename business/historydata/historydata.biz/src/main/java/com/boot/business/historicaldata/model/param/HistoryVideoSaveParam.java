@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @author XINAN
  */
@@ -16,6 +18,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class HistoryVideoSaveParam {
 
+    @NotNull(message = "设备ID不可为空")
+    @ApiModelProperty(value = "设备ID")
+    private Long equipmentId;
+
+    @NotNull(message = "视频文件ID 不可为空")
     @ApiModelProperty(value = "视频文件ID")
     private Long fileId;
 

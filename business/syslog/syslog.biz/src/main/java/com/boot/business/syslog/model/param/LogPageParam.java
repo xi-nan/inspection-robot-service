@@ -9,6 +9,9 @@ import lombok.EqualsAndHashCode;
 @Data
 public class LogPageParam extends PageParam {
 
+    @ApiModelProperty(value = "设备ID")
+    private Long equipmentId;
+
     @ApiModelProperty(value = "日志记录时间段搜索 开始")
     private Long logTimeStart;
 

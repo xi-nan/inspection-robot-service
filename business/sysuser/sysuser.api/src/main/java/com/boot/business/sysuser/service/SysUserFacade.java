@@ -10,13 +10,5 @@ import com.boot.business.sysuser.model.dto.SysUserDTO;
  */
 public interface SysUserFacade {
 
-    /**
-     * 获取搜索关键词相关的用户ID列表
-     *
-     * @param searchKey
-     * @return
-     */
-    Long[] searchUser(String searchKey);
-
     SysUserDTO getDtoById(Long id);
 }
