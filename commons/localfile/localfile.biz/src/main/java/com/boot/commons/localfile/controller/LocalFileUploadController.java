@@ -1,5 +1,6 @@
 package com.boot.commons.localfile.controller;
 
+import cn.hutool.crypto.digest.DigestUtil;
 import com.boot.commons.localfile.model.dto.FileExists;
 import com.boot.commons.localfile.service.LocalFileService;
 import io.swagger.annotations.Api;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -55,12 +57,15 @@ public class LocalFileUploadController {
         service.fileSliceMerge(md5);
     }
 
+    public static void main(String[] args) {
+        System.out.println(DigestUtil.md5Hex(new File("/Users/xinan/tmp/1.mp4")));
+    }
+
     @ApiOperation("普通文件上传")
     @PostMapping(value = "/")
     public Long fileUp(@RequestParam("file") MultipartFile file,
                        @RequestParam("name") String name) throws IOException {
-        return service.fileUp(file, name);
+        return service.fileUp(file, name, DigestUtil.md5Hex(file.getInputStream()));
     }
-
 
 }

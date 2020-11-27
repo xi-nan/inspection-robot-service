@@ -53,7 +53,12 @@ public class FileUtils {
         // }
     }
 
+    public static void main(String[] args) {
+        recode("/Users/xinan/tmp/B001020201126112507.mp4", "/Users/xinan/tmp/B001020201126112507-1.mp4");
+    }
+
     public static void recode(String sourcePath, String targetPath) {
+
         File source = new File(sourcePath);
         File target = new File(targetPath);
         AudioAttributes audio = new AudioAttributes();

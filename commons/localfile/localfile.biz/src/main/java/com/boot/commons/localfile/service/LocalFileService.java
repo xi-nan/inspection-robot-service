@@ -3,6 +3,7 @@ package com.boot.commons.localfile.service;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.digest.DigestUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.boot.commons.core.exception.enums.ErrCodeEnum;
@@ -13,7 +14,6 @@ import com.boot.commons.localfile.model.dto.FileExists;
 import com.boot.commons.localfile.model.dto.LocalFileDTO;
 import com.boot.commons.localfile.model.enums.LocalFileErrCodeEnum;
 import com.boot.commons.localfile.model.po.LocalFile;
-import com.boot.commons.localfile.utils.FileMd5Util;
 import com.boot.commons.localfile.utils.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -141,15 +141,19 @@ public class LocalFileService extends ServiceImpl<LocalFileMapper, LocalFile> im
     }
 
     @LockAction(key = "localFile_#md5")
-    public Long fileUp(MultipartFile file, String name) throws IOException {
+    public Long fileUp(MultipartFile file, String name, String md5) throws IOException {
+        FileExists fileExists = this.fileExists(md5);
+        if (fileExists.getStatus() == 2) {
+            return fileExists.getId();
+        }
         String saveDir = SiteProperties._this.getFileUploadDir() + DateUtil.today();
         String saveName = FileUtils.genName(FileUtil.extName(name));
         long fileSize = file.getSize();
         FileUtils.saveFile(file, saveDir, saveName);
         // 保存文件数据库记录
         LocalFile save = new LocalFile();
-        save.setName(saveName);
-        save.setMd5(FileMd5Util.getFileMD5(new File(saveDir + saveName)));
+        save.setName(name);
+        save.setMd5(md5);
         save.setSize(fileSize);
         save.setSliceFileSize(fileSize);
         save.setSliceIndex(1);
@@ -189,7 +193,9 @@ public class LocalFileService extends ServiceImpl<LocalFileMapper, LocalFile> im
             newFile.setName(file.getName());
             newFile.setSaveName(saveName);
             newFile.setSaveDir(file.getSaveDir());
-            newFile.setSize(file.getSize());
+            newFile.setMd5(DigestUtil.md5Hex(new File(file.getSaveDir() + saveName)));
+            newFile.setSize(new File(file.getSaveDir() + saveName).length());
+            newFile.setOriginalId(fileId);
             newFile.insert();
         }
         ErrCodeEnum.E_10021.throwIf(null == newFile.getId() || !func.apply(newFile.getId()));
