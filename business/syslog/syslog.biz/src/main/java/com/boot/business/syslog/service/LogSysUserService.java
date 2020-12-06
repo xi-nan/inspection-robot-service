@@ -17,6 +17,7 @@ public class LogSysUserService extends ServiceImpl<LogSysUserMapper, LogSysUser>
 
     @Override
     public boolean saveLog(LogSysUserSaveParam param) {
+        param.setLogTime(System.currentTimeMillis());
         return new LogSysUser().warpT(param).insert();
     }
 }

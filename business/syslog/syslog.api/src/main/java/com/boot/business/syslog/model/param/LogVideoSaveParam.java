@@ -22,7 +22,7 @@ import javax.validation.constraints.NotNull;
 public class LogVideoSaveParam {
 
     @ApiModelProperty(value = "日志记录时间")
-    private Long logTime = System.currentTimeMillis();
+    private Long logTime;
 
     @ApiModelProperty(value = "操作类型")
     private LogVideoOperationType operationType;

@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LogSysUserSaveParam {
     @ApiModelProperty(value = "日志记录时间")
-    private Long logTime = System.currentTimeMillis();
+    private Long logTime;
 
     @ApiModelProperty(value = "日志内容")
     private String content;

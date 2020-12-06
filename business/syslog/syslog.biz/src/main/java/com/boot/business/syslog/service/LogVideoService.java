@@ -16,6 +16,7 @@ public class LogVideoService extends ServiceImpl<LogVideoMapper, LogVideo> imple
 
     @Override
     public boolean saveLog(LogVideoSaveParam param) {
+        param.setLogTime(System.currentTimeMillis());
         return new LogVideo().warpT(param).insert();
     }
 }
