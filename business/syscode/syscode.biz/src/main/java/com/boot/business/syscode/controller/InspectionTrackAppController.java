@@ -1,11 +1,13 @@
 package com.boot.business.syscode.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.boot.business.syscode.model.dto.InspectionTrackDTO;
+import com.boot.business.syscode.model.param.InspectionTrackPageParam;
 import com.boot.business.syscode.model.param.InspectionTrackSaveParam;
 import com.boot.business.syscode.model.po.InspectionTrack;
-import com.boot.commons.core.controller.CURDController;
-import com.boot.commons.core.model.param.PageParam;
+import com.boot.commons.core.controller.BaseCURDController;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,10 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "客户端-巡检轨迹管理")
 @RestController
 @RequestMapping(value = "/app/inspectionTrack")
-public class InspectionTrackAppController extends CURDController<InspectionTrack, InspectionTrackDTO, InspectionTrackSaveParam> {
+public class InspectionTrackAppController extends BaseCURDController<InspectionTrack, InspectionTrackDTO, InspectionTrackPageParam, InspectionTrackSaveParam> {
 
     @Override
-    public IPage<InspectionTrackDTO> page(PageParam param) {
-        return super.page(param);
+    protected Wrapper<InspectionTrack> wrapperPageQuery(InspectionTrackPageParam param) {
+        return Wrappers.<InspectionTrack>lambdaQuery()
+                .eq(param.getEnabled() != null, InspectionTrack::getEnabled, param.getEnabled())
+                .like(StrUtil.isNotBlank(param.getTrackName()), InspectionTrack::getTrackName, param.getEnabled())
+                .ge(param.getCreateTimeStart() != null, InspectionTrack::getCreateTime, param.getCreateTimeStart())
+                .le(param.getCreateTimeEnd() != null, InspectionTrack::getCreateTime, param.getCreateTimeEnd());
     }
+
 }

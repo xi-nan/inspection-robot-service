@@ -9,8 +9,17 @@ import lombok.EqualsAndHashCode;
 @Data
 public class InspectionTrackPageParam extends PageParam {
 
-    @ApiModelProperty(value = "搜索")
+    @ApiModelProperty(value = "轨迹名称")
     private String trackName;
+
+    @ApiModelProperty(value = "是否启用")
+    private Boolean enabled;
+
+    @ApiModelProperty(value = "创建时间筛选-开始")
+    private Long createTimeStart;
+
+    @ApiModelProperty(value = "创建时间筛选-结束")
+    private Long createTimeEnd;
 
 }
 

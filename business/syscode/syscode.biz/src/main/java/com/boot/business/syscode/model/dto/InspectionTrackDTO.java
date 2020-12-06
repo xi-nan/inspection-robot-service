@@ -22,4 +22,9 @@ public class InspectionTrackDTO {
     @ApiModelProperty(value = "RFID数据")
     private String rfidData;
 
+    @ApiModelProperty(value = "是否启用")
+    private Boolean enabled;
+
+    @ApiModelProperty(value = "创建时间")
+    private Long createTime;
 }
