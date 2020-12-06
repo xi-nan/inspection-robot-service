@@ -43,11 +43,11 @@ public class AppUserAppController {
         return service.getDtoById(LoginUserUtil.getLoginUserId());
     }
 
-    @ApiOperation("客户端登陆 token有效期只有15秒(3次心跳周期) 每次发送心跳都会续期15秒")
+    @ApiOperation("客户端登陆")
     @PostMapping("/login")
     public String login(@Valid @RequestBody AppUserLoginParam param) {
         // 设置token有效期为3次心跳周期, 且调用接口不自动续期
-        JwtUser user = service.login(param, Duration.ofSeconds(15), false);
+        JwtUser user = service.login(param, Duration.ofHours(6), true);
         redisComponent.set("health_" + user.getUserType() + "_" + user.getId(), user.getToken(), 5 * 3);
         return user.getToken();
     }
@@ -74,8 +74,6 @@ public class AppUserAppController {
             redisComponent.del(JwtTokenUtil.TOKEN_USER_GROUP + user.getToken());
             AppUserErrCodeEnum.E_20104.throwThis();
         }
-        // 重置token有效期为3次心跳周期
-        redisComponent.expire(JwtTokenUtil.TOKEN_USER_GROUP + user.getToken(), 5 * 3);
         // 额外缓存最新客户端登陆token
         redisComponent.set(key, user.getToken(), 5 * 3);
     }
