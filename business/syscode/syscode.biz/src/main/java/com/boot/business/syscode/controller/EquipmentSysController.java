@@ -51,7 +51,7 @@ public class EquipmentSysController {
         return service.getById(id);
     }
 
-    @ApiOperation("获取设备列表(分页) 全部")
+    @ApiOperation("获取设备列表(分页)")
     @PostMapping("/page")
     public IPage<EquipmentDTO> page(@RequestBody EquipmentPageParam param) {
         Long[] users = null;
