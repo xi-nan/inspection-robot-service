@@ -31,7 +31,7 @@ public class QuestionSaveParam {
 
     public SysCode warp() {
 //        return new SysCode(code, question, answer, SysCodeEnum.QUESTIONS.name(), sort, enabled);
-        return new SysCode(code, question, answer, SysCodeEnum.QUESTIONS.name(), sort, Boolean.TRUE);
+        return new SysCode(code, question, answer, SysCodeEnum.QUESTIONS.name(), sort);
     }
 
 }

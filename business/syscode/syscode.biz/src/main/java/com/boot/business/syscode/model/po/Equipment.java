@@ -79,8 +79,4 @@ public class Equipment extends BasePo<Equipment> {
     @Column(columnDefinition = "text COMMENT '范围描述'")
     private String scopeDescr;
 
-    @ApiModelProperty(value = "是否启用")
-    @Column(columnDefinition = "bit(1) COMMENT '是否启用 0:false 1:true'")
-    private Boolean enabled = true;
-
 }

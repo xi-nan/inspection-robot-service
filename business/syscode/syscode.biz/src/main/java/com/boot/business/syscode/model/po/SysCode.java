@@ -39,16 +39,12 @@ public class SysCode extends BasePo<SysCode> {
     @Column(columnDefinition = "BIGINT(4) COMMENT '排序'")
     private Long sort;
 
-    @Column(columnDefinition = "bit(1) COMMENT '是否启用 0:false 1:true'")
-    private Boolean enabled = true;
-
-    public SysCode(String code, String name, String content, String parentCode, Long sort, Boolean enabled) {
+    public SysCode(String code, String name, String content, String parentCode, Long sort) {
         this.code = code;
         this.name = name;
         this.content = content;
         this.parentCode = parentCode;
         this.sort = sort;
-        this.enabled = enabled;
     }
 
     public SysCode() {
