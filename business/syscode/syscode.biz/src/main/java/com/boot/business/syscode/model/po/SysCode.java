@@ -18,8 +18,9 @@ import javax.persistence.Entity;
 
 @Entity
 @Table(appliesTo = "sys_code", comment = "字典", indexes = {
-        @Index(name = "IX_SysCode_code", columnNames = "code"),
-        @Index(name = "IX_SysCode_parentCode", columnNames = "parentCode")
+        @Index(name = "IX_SysCode_deleted", columnNames = {"deleted"}),
+        @Index(name = "IX_SysCode_deleted_code", columnNames = {"deleted", "code"}),
+        @Index(name = "IX_SysCode_deleted_parentCode", columnNames = {"deleted", "parentCode"})
 })
 public class SysCode extends BasePo<SysCode> {
 

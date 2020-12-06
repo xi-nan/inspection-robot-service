@@ -31,7 +31,7 @@ public class ReadController<PO extends BasePo<PO>, DTO> {
 
     @ApiOperation("获取列表(分页)")
     @PostMapping("/page")
-    public IPage<DTO> findVoteNewsByPage(@RequestBody PageParam param) {
+    public <P extends PageParam> IPage<DTO> page(@RequestBody P param) {
         return newPo().selectPage(param.page(), null).convert(it -> it.warpR(dtoClass));
     }
 

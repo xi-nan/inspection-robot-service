@@ -15,6 +15,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Table(appliesTo = "sys_permission", comment = "管理后台权限项表", indexes = {
+        @Index(name = "IX_SysPermission_deleted", columnNames = {"deleted"}),
         @Index(name = "IX_SysPermission_parentId", columnNames = "parentId")
 })
 public class SysPermission extends BasePo<SysPermission> implements Serializable {

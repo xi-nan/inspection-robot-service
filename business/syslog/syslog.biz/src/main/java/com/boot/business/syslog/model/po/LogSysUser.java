@@ -6,6 +6,7 @@ import com.boot.commons.core.security.UserType;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Table;
 
 import javax.persistence.Column;
@@ -19,7 +20,9 @@ import javax.persistence.Entity;
 @Data
 
 @Entity
-@Table(appliesTo = "log_sys_user", comment = "用户日志")
+@Table(appliesTo = "log_sys_user", comment = "用户日志", indexes = {
+        @Index(name = "IX_LogSysUser_deleted", columnNames = {"deleted"})
+})
 public class LogSysUser extends BasePo<LogSysUser> {
 
     @ApiModelProperty(value = "日志记录时间")

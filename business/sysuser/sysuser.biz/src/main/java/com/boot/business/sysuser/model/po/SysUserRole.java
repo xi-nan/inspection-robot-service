@@ -18,8 +18,9 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Table(appliesTo = "sys_user_role", comment = "管理后台用户角色表", indexes = {
-        @Index(name = "IX_SysUserRole_userId", columnNames = "userId"),
-        @Index(name = "IX_SysUserRole_roleId", columnNames = "roleId")
+        @Index(name = "IX_SysUserRole_deleted", columnNames = {"deleted"}),
+        @Index(name = "IX_SysUserRole_deleted_userId", columnNames = {"deleted", "userId"}),
+        @Index(name = "IX_SysUserRole_deleted_roleId", columnNames = {"deleted", "roleId"})
 })
 public class SysUserRole extends BasePo<SysUserRole> implements Serializable {
 

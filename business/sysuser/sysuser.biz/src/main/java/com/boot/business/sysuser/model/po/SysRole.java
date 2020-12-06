@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Table;
 
 import javax.persistence.Column;
@@ -15,7 +16,9 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Entity
-@Table(appliesTo = "sys_role", comment = "管理后台角色表")
+@Table(appliesTo = "sys_role", comment = "管理后台角色表", indexes = {
+        @Index(name = "IX_SysRole_deleted", columnNames = {"deleted"})
+})
 public class SysRole extends BasePo<SysRole> implements Serializable {
 
     @ApiModelProperty(value = "角色描述")

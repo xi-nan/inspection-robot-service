@@ -21,8 +21,9 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(appliesTo = "sys_role_permission", comment = "管理后台角色权限表", indexes = {
-        @Index(name = "IX_SysRolePermission_permissionId", columnNames = "permissionId"),
-        @Index(name = "IX_SysRolePermission_roleId", columnNames = "roleId")
+        @Index(name = "IX_SysRolePermission_deleted", columnNames = {"deleted"}),
+        @Index(name = "IX_SysRolePermission_deleted_permissionId", columnNames = {"deleted", "permissionId"}),
+        @Index(name = "IX_SysRolePermission_deleted_roleId", columnNames = {"deleted", "roleId"})
 })
 public class SysRolePermission extends BasePo<SysRolePermission> implements Serializable {
 

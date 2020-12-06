@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Table;
 
 import javax.persistence.Column;
@@ -16,7 +17,9 @@ import javax.persistence.Entity;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(appliesTo = "notice", comment = "通知消息")
+@Table(appliesTo = "notice", comment = "通知消息", indexes = {
+        @Index(name = "IX_Notice_deleted", columnNames = {"deleted"})
+})
 public class Notice extends BasePo<Notice> {
 
     @ApiModelProperty(value = "外部业务Id")

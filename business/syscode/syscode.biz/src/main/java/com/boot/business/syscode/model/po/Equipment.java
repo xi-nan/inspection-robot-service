@@ -4,6 +4,7 @@ import com.boot.commons.core.model.po.BasePo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Table;
 
 import javax.persistence.Column;
@@ -17,7 +18,9 @@ import javax.persistence.Entity;
 @Data
 
 @Entity
-@Table(appliesTo = "equipment", comment = "设备")
+@Table(appliesTo = "equipment", comment = "设备", indexes = {
+        @Index(name = "IX_Equipment_deleted", columnNames = {"deleted"})
+})
 public class Equipment extends BasePo<Equipment> {
 
 //    @ApiModelProperty(value = "设备code")

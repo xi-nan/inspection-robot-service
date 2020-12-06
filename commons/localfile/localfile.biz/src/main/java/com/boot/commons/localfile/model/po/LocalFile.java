@@ -4,6 +4,7 @@ import com.boot.commons.core.model.po.BasePo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Table;
 
 import javax.persistence.Column;
@@ -20,7 +21,9 @@ import javax.persistence.Entity;
 @Data
 
 @Entity
-@Table(appliesTo = "local_file", comment = "本地保存文件信息")
+@Table(appliesTo = "local_file", comment = "本地保存文件信息", indexes = {
+        @Index(name = "IX_LocalFile_deleted", columnNames = {"deleted"})
+})
 public class LocalFile extends BasePo<LocalFile> {
 
     @ApiModelProperty(value = "文件名")

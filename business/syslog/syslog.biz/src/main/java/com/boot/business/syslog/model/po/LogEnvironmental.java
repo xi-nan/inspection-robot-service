@@ -4,6 +4,7 @@ import com.boot.commons.core.model.po.BasePo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Table;
 
 import javax.persistence.Column;
@@ -17,7 +18,9 @@ import javax.persistence.Entity;
 @Data
 
 @Entity
-@Table(appliesTo = "log_environmental", comment = "环境日志")
+@Table(appliesTo = "log_environmental", comment = "环境日志", indexes = {
+        @Index(name = "IX_LogEnvironmental_deleted", columnNames = {"deleted"})
+})
 public class LogEnvironmental extends BasePo<LogEnvironmental> {
 
     @ApiModelProperty(value = "日志记录时间")

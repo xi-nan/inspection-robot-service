@@ -19,7 +19,8 @@ import java.io.Serializable;
  */
 @Entity
 @Table(appliesTo = "sys_user", comment = "管理员用户表", indexes = {
-        @Index(name = "IX_SysUser_username", columnNames = {"username"})
+        @Index(name = "IX_SysUser_deleted", columnNames = {"deleted"}),
+        @Index(name = "IX_SysUser_deleted_username", columnNames = {"deleted", "username"})
 })
 @Data
 @EqualsAndHashCode(callSuper = false)
