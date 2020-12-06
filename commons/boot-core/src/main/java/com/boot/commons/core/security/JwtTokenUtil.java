@@ -66,7 +66,7 @@ public class JwtTokenUtil implements Serializable {
     public void cleanToken4UserId(String userType, Long userId) {
         Set<String> tokens = redisComponent.setGet(USER_TOKENS_GROUP + userType + userId);
         for (String token : tokens) {
-            redisComponent.del(TOKEN_USER_GROUP, token);
+            redisComponent.del(TOKEN_USER_GROUP + token);
         }
         redisComponent.del(USER_TOKENS_GROUP + userType + userId);
     }

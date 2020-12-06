@@ -25,13 +25,13 @@ public class CleanTokenSetJob {
     @Scheduled(cron = "0 0 2 * * ?")
     public void run() {
         log.debug("开始清理缓存用户token的set集合中已失效的数据");
-        Set<String> keys = redisComponent.getKeys(JwtTokenUtil.USER_TOKENS_GROUP + ".*");
+        Set<String> keys = redisComponent.getKeys(JwtTokenUtil.USER_TOKENS_GROUP + "*");
         for (String key : keys) {
             log.debug("用户: " + key);
             for (String token : redisComponent.setGet(key)) {
                 if (!redisComponent.hasKey(token)) {
                     log.debug("已失效: " + token);
-                    redisComponent.del(key);
+                    redisComponent.del(JwtTokenUtil.TOKEN_USER_GROUP + key);
                 }
             }
         }
