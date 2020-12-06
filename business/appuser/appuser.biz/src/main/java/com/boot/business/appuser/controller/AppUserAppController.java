@@ -48,7 +48,7 @@ public class AppUserAppController {
     public String login(@Valid @RequestBody AppUserLoginParam param) {
         // 设置token有效期为3次心跳周期, 且调用接口不自动续期
         JwtUser user = service.login(param, Duration.ofHours(6), true);
-        redisComponent.set("health_" + user.getUserType() + "_" + user.getId(), user.getToken(), 5 * 3);
+        redisComponent.set("health_" + user.getUserType() + "_" + user.getId(), user.getToken(), Duration.ofHours(6).getSeconds());
         return user.getToken();
     }
 
@@ -75,6 +75,6 @@ public class AppUserAppController {
             AppUserErrCodeEnum.E_20104.throwThis();
         }
         // 额外缓存最新客户端登陆token
-        redisComponent.set(key, user.getToken(), 5 * 3);
+        redisComponent.set(key, user.getToken(), Duration.ofHours(6).getSeconds());
     }
 }
