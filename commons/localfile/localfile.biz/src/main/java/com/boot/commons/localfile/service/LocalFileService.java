@@ -187,6 +187,10 @@ public class LocalFileService extends ServiceImpl<LocalFileMapper, LocalFile> im
         if (null == newFile) {
             LocalFile file = super.getById(fileId);
             LocalFileErrCodeEnum.E_29504.throwIf(null == file || !FileUtil.exist(file.getSaveDir() + file.getSaveName()));
+            // 使用原始文件进行转码
+            while (file.getOriginalId() != null) {
+                file = super.getById(file.getOriginalId());
+            }
             String saveName = FileUtils.genName(FileUtil.extName(file.getName()));
             FileUtils.recode(file.getSaveDir() + file.getSaveName(), file.getSaveDir() + saveName);
             newFile = new LocalFile();
@@ -195,7 +199,7 @@ public class LocalFileService extends ServiceImpl<LocalFileMapper, LocalFile> im
             newFile.setSaveDir(file.getSaveDir());
             newFile.setMd5(DigestUtil.md5Hex(new File(file.getSaveDir() + saveName)));
             newFile.setSize(new File(file.getSaveDir() + saveName).length());
-            newFile.setOriginalId(fileId);
+            newFile.setOriginalId(file.getId());
             newFile.insert();
         }
         ErrCodeEnum.E_10021.throwIf(null == newFile.getId() || !func.apply(newFile.getId()));

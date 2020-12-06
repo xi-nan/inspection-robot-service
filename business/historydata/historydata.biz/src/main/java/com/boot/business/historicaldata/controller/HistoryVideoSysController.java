@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Api(tags = "后台-历史视频")
 @RestController
 @RequestMapping(value = "/sys/history/video")
@@ -28,6 +30,12 @@ public class HistoryVideoSysController {
     @PostMapping("/{type}/page")
     public IPage<HistoryVideoDTO> page(@PathVariable VideoType type, @RequestBody HistoryVideoPageParam param) {
         return service.page(type, param);
+    }
+
+    @ApiOperation("重试所有被中断或执行失败的转码操作")
+    @PostMapping("/continueRecodeVideo")
+    public Map<String, Object> continueRecodeVideo() {
+        return service.continueRecodeVideo();
     }
 
 }

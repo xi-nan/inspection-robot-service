@@ -19,6 +19,10 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * HistoryVideoService
  *
@@ -69,6 +73,24 @@ public class HistoryVideoService extends ServiceImpl<HistoryVideoMapper, History
                     .set(HistoryVideo::getFileId, newFileId)
                     .set(HistoryVideo::getIsRecode, true).update();
         });
+    }
+
+    public Map<String, Object> continueRecodeVideo() {
+        List<HistoryVideo> list = super.list(Wrappers.<HistoryVideo>lambdaQuery().eq(HistoryVideo::getIsRecode, false));
+        int failCount = 0;
+        for (HistoryVideo video : list) {
+            try {
+                this.recodeVideo(video.getId(), video.getFileId());
+            } catch (Exception e) {
+                e.printStackTrace();
+                failCount++;
+            }
+        }
+        int finalFailCount = failCount;
+        return new HashMap<String, Object>() {{
+            put("failCount", finalFailCount);
+            put("notRecodeCount", list.size());
+        }};
     }
 
     public void del(Long id) {

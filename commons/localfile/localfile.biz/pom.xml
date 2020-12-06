@@ -11,7 +11,7 @@
 
     <artifactId>localfile.biz</artifactId>
 <properties>
-    <schild.version>2.7.1</schild.version>
+    <schild.version>3.0.1</schild.version>
 </properties>
     <dependencies>
         <dependency>
@@ -19,11 +19,11 @@
             <groupId>com.boot.inspection-robot-service.commons</groupId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>ws.schild</groupId>
-            <artifactId>jave-all-deps</artifactId>
-            <version>${schild.version}</version>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>ws.schild</groupId>-->
+        <!--            <artifactId>jave-all-deps</artifactId>-->
+        <!--            <version>${schild.version}</version>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>ws.schild</groupId>
             <artifactId>jave-core</artifactId>
@@ -31,9 +31,14 @@
         </dependency>
         <dependency>
             <groupId>ws.schild</groupId>
-            <artifactId>jave-nativebin-win64</artifactId>
+            <artifactId>jave-nativebin-linux64</artifactId>
             <version>${schild.version}</version>
         </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>ws.schild</groupId>-->
+        <!--            <artifactId>jave-nativebin-osx64</artifactId>-->
+        <!--            <version>${schild.version}</version>-->
+        <!--        </dependency>-->
     </dependencies>
 
 </project>
