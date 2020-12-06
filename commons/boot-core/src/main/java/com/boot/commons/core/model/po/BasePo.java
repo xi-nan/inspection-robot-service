@@ -47,6 +47,9 @@ public class BasePo<T extends BasePo<T>> extends Model<T> {
     @Column(columnDefinition = "BIGINT(13) COMMENT '记录修改时间'")
     private Long modifyTime;
 
+    @Column(columnDefinition = "bit(1) NOT NULL DEFAULT 1 COMMENT '是否启用 0:false 1:true'")
+    private Boolean enabled = true;
+
     /**
      * 0: 正常
      * 1: 已删除
@@ -54,7 +57,7 @@ public class BasePo<T extends BasePo<T>> extends Model<T> {
      */
     @TableField(select = false)
     @TableLogic
-    @Column(columnDefinition = "bit(1) DEFAULT 0 COMMENT '是否已删除 0:正常 1:已删除'")
+    @Column(columnDefinition = "bit(1) NOT NULL DEFAULT 0 COMMENT '是否已删除 0:正常 1:已删除'")
     private Integer deleted = 0;
 
     /**

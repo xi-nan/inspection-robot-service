@@ -33,9 +33,6 @@ public class AppUser extends BasePo<AppUser> implements Serializable {
     @Column(columnDefinition = "VARCHAR(512) COMMENT '密码'")
     private String password;
 
-    @Column(columnDefinition = "bit(1) COMMENT '是否启用 0:false 1:true'")
-    private Boolean enabled = true;
-
     @Column(columnDefinition = "VARCHAR(512) COMMENT '昵称'")
     private String nickName;
 
