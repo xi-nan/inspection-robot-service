@@ -395,7 +395,7 @@ public class RedisComponent {
      * @param key 键
      * @return
      */
-    public Long setGetSize(String key) {
+    public Long setSize(String key) {
         return redisTemplate.opsForSet().size(composeKey(key));
     }
 

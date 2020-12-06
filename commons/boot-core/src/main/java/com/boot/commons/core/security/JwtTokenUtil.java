@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.time.Duration;
+import java.util.Set;
 
 
 /**
@@ -35,7 +36,7 @@ public class JwtTokenUtil implements Serializable {
         String token = user.getUserType() + CONNECTOR + IdUtil.fastSimpleUUID();
         user.setToken(token);
         redisComponent.set(TOKEN_USER_GROUP + token, JSONUtil.toJsonStr(user), expiration.getSeconds());
-        redisComponent.listLPush(USER_TOKENS_GROUP + user.getUserType() + user.getId(), token);
+        redisComponent.setPut(USER_TOKENS_GROUP + user.getUserType() + user.getId(), token);
         return user;
     }
 
@@ -63,12 +64,11 @@ public class JwtTokenUtil implements Serializable {
      * 清除用户所有token
      */
     public void cleanToken4UserId(String userType, Long userId) {
-        Long size = redisComponent.listGetSize(USER_TOKENS_GROUP + userType + userId);
-        while (size > 0) {
-            size--;
-            String token = String.valueOf(redisComponent.listRPop(USER_TOKENS_GROUP + userType + userId));
+        Set<String> tokens = redisComponent.setGet(USER_TOKENS_GROUP + userType + userId);
+        for (String token : tokens) {
             redisComponent.del(TOKEN_USER_GROUP, token);
         }
+        redisComponent.del(USER_TOKENS_GROUP + userType + userId);
     }
 
 }
