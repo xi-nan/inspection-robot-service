@@ -40,7 +40,8 @@ public class RedisComponent {
     }
 
     public String composeKey(String key) {
-        return siteProperties.getAppName().concat("::").concat(key);
+        String pre = siteProperties.getAppName().concat("::");
+        return key.startsWith(pre) ? key : pre.concat(key);
     }
 
     /**

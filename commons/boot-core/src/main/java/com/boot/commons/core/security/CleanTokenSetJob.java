@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -28,11 +29,15 @@ public class CleanTokenSetJob {
         Set<String> keys = redisComponent.getKeys(JwtTokenUtil.USER_TOKENS_GROUP + "*");
         for (String key : keys) {
             log.debug("用户: " + key);
+            Set<String> expiredTokens = new HashSet<>();
             for (String token : redisComponent.setGet(key)) {
-                if (!redisComponent.hasKey(token)) {
+                if (!redisComponent.hasKey(JwtTokenUtil.TOKEN_USER_GROUP + token)) {
                     log.debug("已失效: " + token);
-                    redisComponent.del(JwtTokenUtil.TOKEN_USER_GROUP + key);
+                    expiredTokens.add(token);
                 }
+            }
+            if (expiredTokens.size() > 0) {
+                redisComponent.setDel(key, expiredTokens.toArray(new String[0]));
             }
         }
     }
