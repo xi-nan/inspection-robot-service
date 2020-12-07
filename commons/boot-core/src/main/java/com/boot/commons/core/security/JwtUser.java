@@ -104,8 +104,4 @@ public class JwtUser implements UserDetails {
         return this.id == 1 || this.enabled;
     }
 
-    public String getTypeAndId() {
-        return this.userType.name() + ":" + id;
-    }
-
 }

@@ -25,12 +25,17 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         String user = "[SYS]";
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (null != authentication && authentication.getPrincipal() instanceof JwtUser) {
-            user = ((JwtUser) authentication.getPrincipal()).getTypeAndId();
+            user = this.composeUser((JwtUser) authentication.getPrincipal());
         }
-        this.setInsertFieldValByName("creator", user, metaObject);
-        this.setInsertFieldValByName("createTime", now, metaObject);
-        this.setInsertFieldValByName("modifier", user, metaObject);
-        this.setInsertFieldValByName("modifyTime", now, metaObject);
+        String finalUser = user;
+        this.strictInsertFill(metaObject, "creator", () -> finalUser, String.class);
+        this.strictInsertFill(metaObject, "createTime", () -> now, Long.class);
+        this.strictInsertFill(metaObject, "modifier", () -> finalUser, String.class);
+        this.strictInsertFill(metaObject, "modifyTime", () -> now, Long.class);
+    }
+
+    private String composeUser(JwtUser principal) {
+        return principal.getUsername() + " (" + principal.getUserType().name() + ":" + principal.getId() + ")";
     }
 
     @Override
@@ -39,10 +44,11 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         String user = "[SYS]";
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (null != authentication && authentication.getPrincipal() instanceof JwtUser) {
-            user = ((JwtUser) authentication.getPrincipal()).getTypeAndId();
+            user = this.composeUser((JwtUser) authentication.getPrincipal());
         }
-        this.setUpdateFieldValByName("modifier", user, metaObject);
-        this.setUpdateFieldValByName("modifyTime", System.currentTimeMillis(), metaObject);
+        String finalUser = user;
+        this.strictUpdateFill(metaObject, "modifier", () -> finalUser, String.class);
+        this.strictInsertFill(metaObject, "modifyTime", System::currentTimeMillis, Long.class);
     }
 
 }
