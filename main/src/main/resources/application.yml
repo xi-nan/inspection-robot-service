@@ -1,6 +1,5 @@
-spring.profiles.active: dev
-
 #项目名等配置
+spring.application.name: InspectionRobot
 site:
   app-name: ${spring.application.name}
   explanation: 轨道机器人
@@ -9,24 +8,3 @@ site:
 server:
   port: ${port:60800}
 #  servlet.context-path: /api
-
-spring:
-  application.name: InspectionRobot
-  datasource.driver-class-name: com.mysql.cj.jdbc.Driver
-
-  ## JPA
-  jpa:
-    hibernate:
-      ddl-auto: update
-      naming:
-        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy # 遇到大写加_
-    show-sql: true
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect  #不加这句则默认为myisam
-
-
-mybatis-plus:
-  typeEnumsPackage: com.boot.**.enums
-  global-config:
-    #刷新mapper 调试神器
-    refresh: true
-

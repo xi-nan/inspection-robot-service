@@ -1,6 +1,5 @@
 package com.boot.commons.core.controller;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.boot.commons.core.exception.enums.ErrCodeEnum;
 import com.boot.commons.core.model.param.PageParam;
 import com.boot.commons.core.model.param.ValidGroup;
@@ -41,7 +40,10 @@ public class BaseCURDController<PO extends BasePo<PO>, DTO, PAGE_PARAM extends P
     @ApiOperation("启用/禁用")
     @PostMapping("/{id}/enabled/{enabled}")
     public void enabled(@PathVariable(value = "id") Long id, @PathVariable(value = "enabled") Boolean enabled) {
-        ErrCodeEnum.E_10021.throwIf(!PO().update(Wrappers.<PO>lambdaUpdate().eq(PO::getId, id).set(PO::getEnabled, enabled)));
+        PO po = PO();
+        po.setId(id);
+        po.setEnabled(enabled);
+        ErrCodeEnum.E_10021.throwIf(!po.updateById());
     }
 
 }

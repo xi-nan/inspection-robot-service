@@ -1,8 +1,8 @@
 package com.boot.commons.core.lock;
 
-import cn.hutool.log.StaticLog;
 import com.boot.commons.core.exception.BusinessException;
 import com.boot.commons.core.exception.enums.ErrCodeEnum;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -26,6 +26,7 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 import java.lang.reflect.Method;
 
 @Aspect
+@Slf4j
 @Configuration
 @AutoConfigureAfter(RedissonAutoConfiguration.class)
 @EnableAutoConfiguration
@@ -57,32 +58,32 @@ public class LockAspectConfiguration {
             }
             lock = new RedissonMultiLock(locks);
             if (!lock.tryLock(lockAction.waitTime(), lockAction.leaseTime(), lockAction.unit())) {
-                StaticLog.debug("is lock failed [{}]", keys);
+                log.debug("is lock failed [{}]", keys);
                 ErrCodeEnum.E_10020.throwThis();
             }
         } else if (1 == keys.length) {
             // 单个key 正常加锁
             lock = getLock(keys[0], lockAction);
             if (!lock.tryLock(lockAction.waitTime(), lockAction.leaseTime(), lockAction.unit())) {
-                StaticLog.debug("is lock failed [{}]", keys[0]);
+                log.debug("is lock failed [{}]", keys[0]);
                 ErrCodeEnum.E_10020.throwThis();
             }
         }
 
         //得到锁,执行方法，释放锁
         try {
-            StaticLog.debug("is lock success [{}]", keys);
+            log.debug("is lock success [{}]", keys);
             return pjp.proceed();
         } catch (BusinessException e) {
             throw e;
         } catch (Exception e) {
-            StaticLog.error("execute locked method occured an exception", e);
+            log.error("execute locked method occured an exception", e);
             throw e;
         } finally {
             if (null != lock) {
                 lock.unlock();
             }
-            StaticLog.debug("release lock [{}]", keys);
+            log.debug("release lock [{}]", keys);
         }
     }
 

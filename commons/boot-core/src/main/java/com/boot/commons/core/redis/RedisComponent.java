@@ -10,7 +10,6 @@ import org.springframework.data.redis.connection.RedisGeoCommands;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 public class RedisComponent {
-    @Resource
+    @Autowired
     private StringRedisTemplate redisTemplate;
     @Autowired
     private SiteProperties siteProperties;
