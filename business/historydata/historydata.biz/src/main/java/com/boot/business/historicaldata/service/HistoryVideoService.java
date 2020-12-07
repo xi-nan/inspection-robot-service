@@ -94,9 +94,8 @@ public class HistoryVideoService extends ServiceImpl<HistoryVideoMapper, History
                 e.printStackTrace();
             }
         }
-        int finalFailCount = successCount.get();
         return new HashMap<String, Object>() {{
-            put("failCount", finalFailCount);
+            put("successCount", successCount.get());
             put("notRecodeCount", list.size());
         }};
     }
