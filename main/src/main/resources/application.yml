@@ -1,3 +1,5 @@
+spring.profiles.active: dev
+
 #项目名等配置
 spring.application.name: InspectionRobot
 site:

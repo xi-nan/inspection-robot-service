@@ -1,18 +1,3 @@
-spring:
-  application.name: Example
-  profiles.active: dev
-
-#项目名等配置
-site:
-  app-name: ${spring.application.name}
-  explanation: 项目名
-  file-upload-dir: /data/file
-
-server:
-  port: ${port:60800}
-#  servlet.context-path: /api
-
-
 ############### 下面的配置一般不用动 #######################################################
 mybatis-plus:
   typeEnumsPackage: com.boot.**.enums
