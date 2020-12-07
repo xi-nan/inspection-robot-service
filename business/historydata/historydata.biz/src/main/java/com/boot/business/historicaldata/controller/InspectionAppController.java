@@ -13,9 +13,11 @@ import com.boot.business.historicaldata.model.enums.TrajectoryType;
 import com.boot.business.historicaldata.model.enums.VideoType;
 import com.boot.business.historicaldata.model.param.HistoryInspectionPageParam;
 import com.boot.business.historicaldata.model.po.*;
+import com.boot.commons.localfile.service.LocalFileFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -183,6 +185,9 @@ public class InspectionAppController {
 
     // =======================================================================
 
+    @Autowired
+    private LocalFileFacade localFileFacade;
+
     @ApiOperation("保存巡检视频")
     @PostMapping("/video/{inspectionId}/save")
     public void videoSave(@PathVariable Long inspectionId, @RequestParam Long visibleVideoFileId, @RequestParam Long thermographyVideoFileId) {
@@ -200,6 +205,26 @@ public class InspectionAppController {
         thermography.setVideoType(VideoType.THERMOGRAPHY);
         thermography.setFileId(thermographyVideoFileId);
         thermography.insert();
+        // 视频转码
+        localFileFacade.recodeVideo(visibleVideoFileId, newFileId -> {
+            if (null == newFileId) {
+                return false;
+            }
+            return new InspectionVideo().update(Wrappers.<InspectionVideo>lambdaUpdate()
+                    .eq(InspectionVideo::getId, visible.getId())
+                    .set(InspectionVideo::getFileId, newFileId)
+                    .set(InspectionVideo::getIsRecode, true));
+        });
+        // 视频转码
+        localFileFacade.recodeVideo(thermographyVideoFileId, newFileId -> {
+            if (null == newFileId) {
+                return false;
+            }
+            return new InspectionVideo().update(Wrappers.<InspectionVideo>lambdaUpdate()
+                    .eq(InspectionVideo::getId, thermography.getId())
+                    .set(InspectionVideo::getFileId, newFileId)
+                    .set(InspectionVideo::getIsRecode, true));
+        });
     }
 
     @ApiOperation("获取巡检视频,返回文件ID")
@@ -208,8 +233,9 @@ public class InspectionAppController {
         InspectionVideo po = new InspectionVideo().selectOne(Wrappers.<InspectionVideo>lambdaQuery()
                 .eq(InspectionVideo::getInspectionId, inspectionId)
                 .eq(InspectionVideo::getVideoType, type)
+                .eq(InspectionVideo::getIsRecode, true)
         );
-        return null == po ? null : po.getFileId();
+        return null == po ? -1L : po.getFileId();
     }
 
     // =======================================================================

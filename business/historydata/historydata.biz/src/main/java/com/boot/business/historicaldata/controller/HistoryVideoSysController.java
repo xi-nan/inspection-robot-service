@@ -32,7 +32,7 @@ public class HistoryVideoSysController {
         return service.page(type, param);
     }
 
-    @ApiOperation("重试所有被中断或执行失败的转码操作")
+    @ApiOperation("重试所有被中断或执行失败的历史视频转码操作")
     @PostMapping("/continueRecodeVideo")
     public Map<String, Object> continueRecodeVideo() {
         return service.continueRecodeVideo();

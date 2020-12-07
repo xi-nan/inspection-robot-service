@@ -10,12 +10,16 @@ import com.boot.business.historicaldata.model.enums.TrajectoryType;
 import com.boot.business.historicaldata.model.enums.VideoType;
 import com.boot.business.historicaldata.model.param.HistoryInspectionPageParam;
 import com.boot.business.historicaldata.model.po.*;
+import com.boot.commons.localfile.service.LocalFileFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -65,6 +69,37 @@ public class InspectionSysController {
     }
 
     // =======================================================================
+
+    @Autowired
+    private LocalFileFacade localFileFacade;
+
+    @ApiOperation("重试所有被中断或执行失败的巡检视频转码操作")
+    @PostMapping("/continueRecodeVideo")
+    public Map<String, Object> continueRecodeVideo() {
+        List<InspectionVideo> list = new InspectionVideo().selectList(Wrappers.<InspectionVideo>lambdaQuery().eq(InspectionVideo::getIsRecode, false));
+        int failCount = 0;
+        for (InspectionVideo video : list) {
+            try {
+                localFileFacade.recodeVideo(video.getFileId(), newFileId -> {
+                    if (null == newFileId) {
+                        return false;
+                    }
+                    return new InspectionVideo().update(Wrappers.<InspectionVideo>lambdaUpdate()
+                            .eq(InspectionVideo::getId, video.getId())
+                            .set(InspectionVideo::getFileId, newFileId)
+                            .set(InspectionVideo::getIsRecode, true));
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                failCount++;
+            }
+        }
+        int finalFailCount = failCount;
+        return new HashMap<String, Object>() {{
+            put("failCount", finalFailCount);
+            put("notRecodeCount", list.size());
+        }};
+    }
 
     @ApiOperation("获取巡检视频,返回文件ID")
     @PostMapping("/video/{inspectionId}/{type}")
