@@ -166,6 +166,7 @@ public class LocalFileService extends ServiceImpl<LocalFileMapper, LocalFile> im
 
     @Override
     public File loadFile(Long fileId) {
+        LocalFileErrCodeEnum.E_29502.throwIf(null == fileId || fileId <= 0);
         LocalFile file = super.getById(fileId);
         LocalFileErrCodeEnum.E_29504.throwIf(null == file || !FileUtil.exist(file.getSaveDir() + file.getSaveName()));
         return new File(file.getSaveDir() + file.getSaveName());
@@ -173,6 +174,7 @@ public class LocalFileService extends ServiceImpl<LocalFileMapper, LocalFile> im
 
     @Override
     public LocalFileDTO findById(Long fileId) {
+        LocalFileErrCodeEnum.E_29502.throwIf(null == fileId || fileId <= 0);
         LocalFile localFile = super.getById(fileId);
         if (localFile == null) {
             return null;
@@ -183,6 +185,9 @@ public class LocalFileService extends ServiceImpl<LocalFileMapper, LocalFile> im
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void recodeVideo(Long fileId, Function<Long, Boolean> func) {
+        if (null == fileId || fileId <= 0) {
+            return;
+        }
         LocalFile newFile = super.lambdaQuery().eq(LocalFile::getOriginalId, fileId).one();
         if (null == newFile) {
             LocalFile file = super.getById(fileId);

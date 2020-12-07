@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -76,25 +77,30 @@ public class InspectionSysController {
     @ApiOperation("重试所有被中断或执行失败的巡检视频转码操作")
     @PostMapping("/continueRecodeVideo")
     public Map<String, Object> continueRecodeVideo() {
-        List<InspectionVideo> list = new InspectionVideo().selectList(Wrappers.<InspectionVideo>lambdaQuery().eq(InspectionVideo::getIsRecode, false));
-        int failCount = 0;
+        List<InspectionVideo> list = new InspectionVideo().selectList(Wrappers.<InspectionVideo>lambdaQuery()
+                .gt(InspectionVideo::getFileId, 0L)
+                .eq(InspectionVideo::getIsRecode, false));
+        AtomicInteger successCount = new AtomicInteger();
         for (InspectionVideo video : list) {
             try {
                 localFileFacade.recodeVideo(video.getFileId(), newFileId -> {
                     if (null == newFileId) {
                         return false;
                     }
-                    return new InspectionVideo().update(Wrappers.<InspectionVideo>lambdaUpdate()
+                    if (new InspectionVideo().update(Wrappers.<InspectionVideo>lambdaUpdate()
                             .eq(InspectionVideo::getId, video.getId())
                             .set(InspectionVideo::getFileId, newFileId)
-                            .set(InspectionVideo::getIsRecode, true));
+                            .set(InspectionVideo::getIsRecode, true))) {
+                        successCount.getAndIncrement();
+                        return true;
+                    }
+                    return false;
                 });
             } catch (Exception e) {
                 e.printStackTrace();
-                failCount++;
             }
         }
-        int finalFailCount = failCount;
+        int finalFailCount = successCount.get();
         return new HashMap<String, Object>() {{
             put("failCount", finalFailCount);
             put("notRecodeCount", list.size());
@@ -107,8 +113,10 @@ public class InspectionSysController {
         InspectionVideo po = new InspectionVideo().selectOne(Wrappers.<InspectionVideo>lambdaQuery()
                 .eq(InspectionVideo::getInspectionId, inspectionId)
                 .eq(InspectionVideo::getVideoType, type)
+                .gt(InspectionVideo::getFileId, 0L)
+                .eq(InspectionVideo::getIsRecode, true)
         );
-        return null == po ? null : po.getFileId();
+        return null == po ? -1L : po.getFileId();
     }
 
     // =======================================================================

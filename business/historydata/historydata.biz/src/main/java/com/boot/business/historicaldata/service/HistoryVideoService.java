@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * HistoryVideoService
@@ -65,28 +66,35 @@ public class HistoryVideoService extends ServiceImpl<HistoryVideoMapper, History
      */
     @Async
     public void recodeVideo(Long id, Long fileId) {
-        localFileFacade.recodeVideo(fileId, newFileId -> {
-            if (null == newFileId) {
-                return false;
-            }
-            return super.lambdaUpdate().eq(HistoryVideo::getId, id)
-                    .set(HistoryVideo::getFileId, newFileId)
-                    .set(HistoryVideo::getIsRecode, true).update();
-        });
+        localFileFacade.recodeVideo(fileId, newFileId ->
+                null != newFileId && super.lambdaUpdate()
+                        .eq(HistoryVideo::getId, id)
+                        .set(HistoryVideo::getFileId, newFileId)
+                        .set(HistoryVideo::getIsRecode, true).update());
     }
 
     public Map<String, Object> continueRecodeVideo() {
-        List<HistoryVideo> list = super.list(Wrappers.<HistoryVideo>lambdaQuery().eq(HistoryVideo::getIsRecode, false));
-        int failCount = 0;
+        List<HistoryVideo> list = super.list(Wrappers.<HistoryVideo>lambdaQuery()
+                .gt(HistoryVideo::getFileId, 0L)
+                .eq(HistoryVideo::getIsRecode, false));
+        AtomicInteger successCount = new AtomicInteger();
         for (HistoryVideo video : list) {
             try {
-                this.recodeVideo(video.getId(), video.getFileId());
+                localFileFacade.recodeVideo(video.getFileId(), newFileId -> {
+                    if (null != newFileId && super.lambdaUpdate()
+                            .eq(HistoryVideo::getId, video.getId())
+                            .set(HistoryVideo::getFileId, newFileId)
+                            .set(HistoryVideo::getIsRecode, true).update()) {
+                        successCount.getAndIncrement();
+                        return true;
+                    }
+                    return false;
+                });
             } catch (Exception e) {
                 e.printStackTrace();
-                failCount++;
             }
         }
-        int finalFailCount = failCount;
+        int finalFailCount = successCount.get();
         return new HashMap<String, Object>() {{
             put("failCount", finalFailCount);
             put("notRecodeCount", list.size());

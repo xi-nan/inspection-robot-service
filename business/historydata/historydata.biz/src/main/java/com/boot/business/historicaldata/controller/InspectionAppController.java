@@ -233,6 +233,7 @@ public class InspectionAppController {
         InspectionVideo po = new InspectionVideo().selectOne(Wrappers.<InspectionVideo>lambdaQuery()
                 .eq(InspectionVideo::getInspectionId, inspectionId)
                 .eq(InspectionVideo::getVideoType, type)
+                .gt(InspectionVideo::getFileId, 0L)
                 .eq(InspectionVideo::getIsRecode, true)
         );
         return null == po ? -1L : po.getFileId();
