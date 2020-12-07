@@ -2,11 +2,9 @@ package com.boot.business.syslog.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.boot.business.syslog.model.dto.LogAlarmDTO;
 import com.boot.business.syslog.model.dto.LogEquipmentRunDTO;
 import com.boot.business.syslog.model.param.LogEquipmentRunSaveParam;
 import com.boot.business.syslog.model.param.LogPageParam;
-import com.boot.business.syslog.model.po.LogAlarm;
 import com.boot.business.syslog.model.po.LogEquipmentRun;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,13 +18,13 @@ public class LogEquipmentRunAppController {
     @ApiOperation("保存日志记录")
     @PostMapping("/save")
     public void add(@RequestBody LogEquipmentRunSaveParam param) {
-        new LogAlarm().warpT(param).insert();
+        new LogEquipmentRun().warpT(param).insert();
     }
 
     @GetMapping("/details/{id}")
     @ApiOperation("查看详情")
-    public LogAlarmDTO getById(@PathVariable Long id) {
-        return LogAlarmDTO.warp(new LogAlarm().selectById(id));
+    public LogEquipmentRunDTO getById(@PathVariable Long id) {
+        return LogEquipmentRunDTO.warp(new LogEquipmentRun().selectById(id));
     }
 
     @ApiOperation("获取日志列表(分页)")
