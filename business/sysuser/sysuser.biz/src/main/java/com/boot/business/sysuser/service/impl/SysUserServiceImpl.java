@@ -2,6 +2,7 @@ package com.boot.business.sysuser.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.digest.DigestUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -130,7 +131,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         // 清除用户登录token缓存
         jwtTokenUtil.cleanToken4UserId(UserType.ADMIN.name(), id);
         //将密码进行加密操作
-        user.setPassword(passwordEncoder.encode("a12345"));
+        user.setPassword(passwordEncoder.encode(DigestUtil.md5Hex("a12345")));
         return user.updateById();
     }
 
