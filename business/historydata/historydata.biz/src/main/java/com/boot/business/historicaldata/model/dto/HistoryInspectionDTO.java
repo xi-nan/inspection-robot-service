@@ -1,7 +1,6 @@
 package com.boot.business.historicaldata.model.dto;
 
 import com.boot.business.historicaldata.model.po.HistoryInspection;
-import com.boot.commons.core.model.po.BasePo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class HistoryInspectionDTO extends BasePo<HistoryInspectionDTO> {
+public class HistoryInspectionDTO {
 
     @ApiModelProperty(value = "巡检ID")
     private Long id;
