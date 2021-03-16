@@ -40,3 +40,4 @@
 - Maven打包 `mvn clean install` 对parent根项目打包
 - 打包后 jar 包本地地址`main/target/InspectionRobot-main.jar`
 - 将打包好的 jar 包上传至服务器, 运行启动命令 `nohup java -jar -server Xms512m -Xmx1024m InspectionRobot-main.jar --spring.profiles.active=prod > /dev/null 2>&1 &`
+- ![img](1615898148417.png)
